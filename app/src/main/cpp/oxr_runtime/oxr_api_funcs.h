@@ -70,6 +70,7 @@ xrEnumerateInstanceExtensionProperties(const char *layerName,
                                        uint32_t *propertyCountOutput,
                                        XrExtensionProperties *properties);
 
+extern "C"
 //! OpenXR API function @ep{xrCreateInstance}
 JNIEXPORT XRAPI_ATTR XrResult XRAPI_CALL
 xrCreateInstance(const XrInstanceCreateInfo *createInfo, XrInstance *instance);

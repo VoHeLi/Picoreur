@@ -582,3 +582,10 @@
     OXR_EXTENSION_SUPPORT_MNDX_hydra(_) \
     OXR_EXTENSION_SUPPORT_MNDX_system_buttons(_)
 // clang-format on
+
+
+#define MAKE_EXT_STATUS(mixed_case, all_caps) bool mixed_case;
+struct oxr_extension_status
+{
+    OXR_EXTENSION_SUPPORT_GENERATE(MAKE_EXT_STATUS)
+};

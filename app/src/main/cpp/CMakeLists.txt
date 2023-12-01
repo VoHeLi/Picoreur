@@ -27,7 +27,8 @@ include_directories(. oxr_runtime)
 # System.loadLibrary() and pass the name of the library defined here;
 # for GameActivity/NativeActivity derived applications, the same library name must be
 # used in the AndroidManifest.xml file.
-add_library(${CMAKE_PROJECT_NAME} SHARED runtime.cpp oxr_runtime/oxr_api_negotiate.cpp oxr_runtime/oxr_api_instance.cpp oxr_runtime/android_globals.cpp)
+add_library(${CMAKE_PROJECT_NAME} SHARED runtime.cpp oxr_runtime/oxr_api_negotiate.cpp oxr_runtime/oxr_api_instance.cpp oxr_runtime/android_globals.cpp oxr_runtime/oxr_api_verify.cpp
+        )
 
 
 # Specifies libraries CMake should link to your target library. You

@@ -8,8 +8,6 @@
  * @ingroup oxr_api
  */
 
-#include <stdbool.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "oxr_api_funcs.h"
@@ -27,7 +25,7 @@
 	} while (false)
 
 
-
+extern "C"
 XRAPI_ATTR XrResult XRAPI_CALL
 xrNegotiateLoaderRuntimeInterface(const XrNegotiateLoaderInfo *loaderInfo, XrNegotiateRuntimeRequest *runtimeRequest)
 {
@@ -292,10 +290,10 @@ handle_non_null(struct oxr_instance *inst, struct oxr_logger *log, const char *n
 static XrResult
 handle_null(const char *name, PFN_xrVoidFunction *out_function)
 {
-    //ENTRY(xrCreateInstance);
-    //ENTRY(xrEnumerateInstanceExtensionProperties);
+    ENTRY(xrCreateInstance);
+    ENTRY(xrEnumerateInstanceExtensionProperties);
     ENTRY(xrEnumerateApiLayerProperties);
-    //ENTRY(xrInitializeLoaderKHR);
+    ENTRY(xrInitializeLoaderKHR);
 
 
     /*

@@ -12,6 +12,8 @@ cmake_minimum_required(VERSION 3.22.1)
 # build script scope).
 project("runtime")
 
+include_directories(. oxr_runtime)
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -25,7 +27,7 @@ project("runtime")
 # System.loadLibrary() and pass the name of the library defined here;
 # for GameActivity/NativeActivity derived applications, the same library name must be
 # used in the AndroidManifest.xml file.
-add_library(${CMAKE_PROJECT_NAME} SHARED runtime.cpp oxr_runtime/oxr_api_negotiate.c)
+add_library(${CMAKE_PROJECT_NAME} SHARED runtime.cpp oxr_runtime/oxr_api_negotiate.cpp oxr_runtime/oxr_api_instance.cpp oxr_runtime/android_globals.cpp)
 
 
 # Specifies libraries CMake should link to your target library. You

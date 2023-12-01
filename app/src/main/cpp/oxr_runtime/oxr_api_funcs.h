@@ -8,7 +8,11 @@
  */
 
 
+
 #pragma once
+
+#include <android/log.h>
+#include <jni.h>
 
 #include <jni.h>
 #include "../openxr/openxr_runtime.h"
@@ -18,7 +22,7 @@
 
 
 
-
+extern "C" {
 
 /*!
  * @defgroup oxr_api OpenXR entrypoints
@@ -29,6 +33,7 @@
  * @ingroup oxr
  * @{
  */
+
 
 
 /*
@@ -44,8 +49,8 @@ xrGetInstanceProcAddr(XrInstance instance, const char *name, PFN_xrVoidFunction 
 //! OpenXR API function @ep{xrEnumerateApiLayerProperties}
 JNIEXPORT XRAPI_ATTR XrResult XRAPI_CALL
 xrEnumerateApiLayerProperties(uint32_t propertyCapacityInput,
-                                  uint32_t *propertyCountOutput,
-                                  XrApiLayerProperties *properties);
+                              uint32_t *propertyCountOutput,
+                              XrApiLayerProperties *properties);
 
 
 /*
@@ -61,9 +66,9 @@ xrInitializeLoaderKHR(const XrLoaderInitInfoBaseHeaderKHR *loaderInitInfo);
 //! OpenXR API function @ep{xrEnumerateInstanceExtensionProperties}
 JNIEXPORT XRAPI_ATTR XrResult XRAPI_CALL
 xrEnumerateInstanceExtensionProperties(const char *layerName,
-                                           uint32_t propertyCapacityInput,
-                                           uint32_t *propertyCountOutput,
-                                           XrExtensionProperties *properties);
+                                       uint32_t propertyCapacityInput,
+                                       uint32_t *propertyCountOutput,
+                                       XrExtensionProperties *properties);
 
 //! OpenXR API function @ep{xrCreateInstance}
 JNIEXPORT XRAPI_ATTR XrResult XRAPI_CALL
@@ -576,3 +581,4 @@ oxr_xrRequestDisplayRefreshRateFB(XrSession session, float displayRefreshRate);
 
 */
 
+}

@@ -208,6 +208,6 @@ xrCreateInstance(const XrInstanceCreateInfo *createInfo, XrInstance *out_instanc
 
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance calling mirage!");
 
-    return initializeMirageApp(android_globals_get_context(), android_globals_get_vm());
+    return initializeMirageApp(android_globals_get_vm(), android_globals_get_context());
 
 }

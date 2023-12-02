@@ -1,9 +1,11 @@
 package com.picoreur.runtime;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -28,7 +30,6 @@ public class PicoreurService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         afficherNotification();
         loadRuntimeJNI();
 
@@ -85,6 +86,10 @@ public class PicoreurService extends Service {
     public String getNativeDir() {
         // Implementation
         return getApplicationContext().getApplicationInfo().nativeLibraryDir;
+    }
+
+    public Context getContext(){
+        return getApplicationContext();
     }
 
     @Override

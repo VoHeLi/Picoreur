@@ -73,6 +73,9 @@ XrResult initializeMirageApp(void* vm, void* clazz){
         loaderInitInfoAndroid.applicationVM = vm;
         loaderInitInfoAndroid.applicationContext = clazz;
 
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : loaderInitInfoAndroid.applicationVM : %p", loaderInitInfoAndroid.applicationContext);
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : loaderInitInfoAndroid.applicationContext : %p", loaderInitInfoAndroid.applicationVM);
+
         initializeLoader((const XrLoaderInitInfoBaseHeaderKHR*)&loaderInitInfoAndroid);
     }
 

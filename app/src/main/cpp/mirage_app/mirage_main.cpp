@@ -11,7 +11,7 @@
 
 void CreateInstanceInternal(const std::shared_ptr<IPlatformPlugin>& platformPlugin) {
     // Create union of extensions required by platform and graphics plugins.
-    std::vector<const char*> extensions;
+    std::vector<const char*> extensions;/* = {XR_KHR_ANDROID_CREATE_INSTANCE_EXTENSION_NAME, XR_KHR_OPENGL_ES_ENABLE_EXTENSION_NAME};*/
 
     // Transform platform and graphics extension std::strings to C strings.
     const std::vector<std::string> platformExtensions = platformPlugin->GetInstanceExtensions();
@@ -21,6 +21,8 @@ void CreateInstanceInternal(const std::shared_ptr<IPlatformPlugin>& platformPlug
     std::transform(graphicsExtensions.begin(), graphicsExtensions.end(), std::back_inserter(extensions),
                    [](const std::string& ext) { return ext.c_str(); });
 
+
+
     XrInstanceCreateInfo createInfo{XR_TYPE_INSTANCE_CREATE_INFO};
     createInfo.next = platformPlugin->GetInstanceCreateExtension();
     createInfo.enabledExtensionCount = (uint32_t)extensions.size();
@@ -28,6 +30,17 @@ void CreateInstanceInternal(const std::shared_ptr<IPlatformPlugin>& platformPlug
 
     strcpy(createInfo.applicationInfo.applicationName, "Picoreur Mirage");
     createInfo.applicationInfo.apiVersion = XR_CURRENT_API_VERSION;
+
+    //DEBUG XRINSTANCECREATEINFO :
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo type : %d", createInfo.type);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo createFlags : %p", createInfo.createFlags);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo applicationInfo : %p", createInfo.applicationInfo);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo enabledExtensionCount : %d", createInfo.enabledExtensionCount);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo enableApiLayerCount : %d", createInfo.enabledApiLayerCount);
+
+    for(int i = 0; i < createInfo.enabledExtensionCount; i++){
+        __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo enabled Extension : %s", createInfo.enabledExtensionNames[i]);
+    }
 
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "Before xrCreateInstance Mirage call");
 

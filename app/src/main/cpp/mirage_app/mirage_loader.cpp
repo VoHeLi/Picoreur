@@ -26,6 +26,8 @@ XrResult storeLynxOpenXRPath(){
     outfile.close();
 
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "Writing path to file successful!");
+
+    return XR_SUCCESS;
 }
 
 XrResult loadLynxOpenXR(){
@@ -48,7 +50,11 @@ XrResult loadRuntimeContext(JNIEnv *env, jobject thiz){
     runtimeJavaObject = thiz;
     runtimeJniEnv = env;
 
-    return storeLynxOpenXRPath();
+    XrResult  result = storeLynxOpenXRPath();
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "After storeLynxOpenXRPath");
+
+    return result;
 }
 
 XrResult m_xrGetInstanceProcAddr(XrInstance instance, const char *name,

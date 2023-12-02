@@ -14,6 +14,7 @@ static void* lynxLoaderHandle;
 static JNIEnv* runtimeJniEnv;
 static jobject runtimeJavaObject;
 
+XrResult loadLynxOpenXR();
 
 XrResult loadRuntimeContext(JNIEnv *env, jobject thiz);
 

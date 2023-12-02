@@ -70,42 +70,43 @@ xrEnumerateInstanceExtensionProperties(const char *layerName,
                                        uint32_t *propertyCountOutput,
                                        XrExtensionProperties *properties);
 
-extern "C"
+
 //! OpenXR API function @ep{xrCreateInstance}
 JNIEXPORT XRAPI_ATTR XrResult XRAPI_CALL
 xrCreateInstance(const XrInstanceCreateInfo *createInfo, XrInstance *instance);
 
-/*
+
 
 //! OpenXR API function @ep{xrDestroyInstance}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrDestroyInstance(XrInstance instance);
+xrDestroyInstance(XrInstance instance);
 
 //! OpenXR API function @ep{xrGetInstanceProperties}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetInstanceProperties(XrInstance instance, XrInstanceProperties *instanceProperties);
+xrGetInstanceProperties(XrInstance instance, XrInstanceProperties *instanceProperties);
 
 //! OpenXR API function @ep{xrPollEvent}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrPollEvent(XrInstance instance, XrEventDataBuffer *eventData);
+xrPollEvent(XrInstance instance, XrEventDataBuffer *eventData);
 
 //! OpenXR API function @ep{xrResultToString}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrResultToString(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE]);
+xrResultToString(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE]);
 
 //! OpenXR API function @ep{xrStructureTypeToString}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrStructureTypeToString(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
+xrStructureTypeToString(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
 
 //! OpenXR API function @ep{xrStringToPath}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrStringToPath(XrInstance instance, const char *pathString, XrPath *path);
+xrStringToPath(XrInstance instance, const char *pathString, XrPath *path);
 
 //! OpenXR API function @ep{xrPathToString}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrPathToString(
+xrPathToString(
     XrInstance instance, XrPath path, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer);
 
+/*
 //! OpenXR API function @ep{xrConvertTimespecTimeToTimeKHR}
 XRAPI_ATTR XrResult XRAPI_CALL
 oxr_xrConvertTimespecTimeToTimeKHR(XrInstance instance, const struct timespec *timespecTime, XrTime *time);
@@ -114,17 +115,6 @@ oxr_xrConvertTimespecTimeToTimeKHR(XrInstance instance, const struct timespec *t
 XRAPI_ATTR XrResult XRAPI_CALL
 oxr_xrConvertTimeToTimespecTimeKHR(XrInstance instance, XrTime time, struct timespec *timespecTime);
 
-#ifdef XR_USE_PLATFORM_WIN32
-//! OpenXR API function @ep{xrConvertWin32PerformanceCounterToTimeKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrConvertWin32PerformanceCounterToTimeKHR(XrInstance instance,
-                                              const LARGE_INTEGER *performanceCounter,
-                                              XrTime *time);
-
-//! OpenXR API function @ep{xrConvertTimeToWin32PerformanceCounterKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrConvertTimeToWin32PerformanceCounterKHR(XrInstance instance, XrTime time, LARGE_INTEGER *performanceCounter);
-#endif // XR_USE_PLATFORM_WIN32
 
 /*
  *

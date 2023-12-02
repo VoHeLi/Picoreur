@@ -133,17 +133,21 @@ xrEnumerateApiLayerProperties(uint32_t propertyCapacityInput,
  * Handle a non-null instance pointer.
  */
 static XrResult
-handle_non_null(struct oxr_instance *inst, struct oxr_logger *log, const char *name, PFN_xrVoidFunction *out_function)
+handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction *out_function)
 {
-    /*ENTRY(xrGetInstanceProcAddr);
+    ENTRY(xrGetInstanceProcAddr);
     ENTRY(xrEnumerateInstanceExtensionProperties);
     ENTRY(xrCreateInstance);
+
     ENTRY(xrDestroyInstance);
     ENTRY(xrGetInstanceProperties);
     ENTRY(xrPollEvent);
     ENTRY(xrResultToString);
     ENTRY(xrStructureTypeToString);
-    ENTRY(xrGetSystem);
+    ENTRY(xrStringToPath);
+    ENTRY(xrPathToString);
+
+    /*ENTRY(xrGetSystem);
     ENTRY(xrGetSystemProperties);
     ENTRY(xrEnumerateEnvironmentBlendModes);
     ENTRY(xrCreateSession);
@@ -171,8 +175,6 @@ handle_non_null(struct oxr_instance *inst, struct oxr_logger *log, const char *n
     ENTRY(xrEndFrame);
     ENTRY(xrRequestExitSession);
     ENTRY(xrLocateViews);
-    ENTRY(xrStringToPath);
-    ENTRY(xrPathToString);
     ENTRY(xrCreateActionSet);
     ENTRY(xrDestroyActionSet);
     ENTRY(xrCreateAction);
@@ -188,8 +190,8 @@ handle_non_null(struct oxr_instance *inst, struct oxr_logger *log, const char *n
     ENTRY(xrEnumerateBoundSourcesForAction);
     ENTRY(xrGetInputSourceLocalizedName);
     ENTRY(xrApplyHapticFeedback);
-    ENTRY(xrStopHapticFeedback);
-
+    ENTRY(xrStopHapticFeedback);*/
+/*
 #ifdef OXR_HAVE_KHR_visibility_mask
     ENTRY_IF_EXT(xrGetVisibilityMaskKHR, KHR_visibility_mask);
 #endif // OXR_HAVE_KHR_visibility_mask
@@ -242,10 +244,6 @@ handle_non_null(struct oxr_instance *inst, struct oxr_logger *log, const char *n
 	ENTRY_IF_EXT(xrSessionInsertDebugUtilsLabelEXT, EXT_debug_utils);
 #endif // OXR_HAVE_EXT_debug_utils
 
-#ifdef OXR_HAVE_KHR_opengl_enable
-    ENTRY_IF_EXT(xrGetOpenGLGraphicsRequirementsKHR, KHR_opengl_enable);
-#endif // OXR_HAVE_KHR_opengl_enable
-
 #ifdef OXR_HAVE_KHR_opengl_es_enable
     ENTRY_IF_EXT(xrGetOpenGLESGraphicsRequirementsKHR, KHR_opengl_es_enable);
 #endif // OXR_HAVE_KHR_opengl_es_enable
@@ -253,28 +251,7 @@ handle_non_null(struct oxr_instance *inst, struct oxr_logger *log, const char *n
 #ifdef OXR_HAVE_KHR_visibility_mask
     ENTRY_IF_EXT(xrGetVisibilityMaskKHR, KHR_visibility_mask);
 #endif // OXR_HAVE_KHR_visibility_mask
-
-#ifdef OXR_HAVE_KHR_vulkan_enable
-    ENTRY_IF_EXT(xrGetVulkanInstanceExtensionsKHR, KHR_vulkan_enable);
-	ENTRY_IF_EXT(xrGetVulkanDeviceExtensionsKHR, KHR_vulkan_enable);
-	ENTRY_IF_EXT(xrGetVulkanGraphicsDeviceKHR, KHR_vulkan_enable);
-	ENTRY_IF_EXT(xrGetVulkanGraphicsRequirementsKHR, KHR_vulkan_enable);
-#endif // OXR_HAVE_KHR_vulkan_enable
-
-#ifdef OXR_HAVE_KHR_vulkan_enable2
-    ENTRY_IF_EXT(xrGetVulkanGraphicsDevice2KHR, KHR_vulkan_enable2);
-	ENTRY_IF_EXT(xrCreateVulkanDeviceKHR, KHR_vulkan_enable2);
-	ENTRY_IF_EXT(xrGetVulkanGraphicsRequirements2KHR, KHR_vulkan_enable2);
-	ENTRY_IF_EXT(xrCreateVulkanInstanceKHR, KHR_vulkan_enable2);
-#endif // OXR_HAVE_KHR_vulkan_enable2
-
-#ifdef OXR_HAVE_KHR_D3D11_enable
-    ENTRY_IF_EXT(xrGetD3D11GraphicsRequirementsKHR, KHR_D3D11_enable);
-#endif // OXR_HAVE_KHR_D3D11_enable
-
-#ifdef OXR_HAVE_KHR_D3D12_enable
-    ENTRY_IF_EXT(xrGetD3D12GraphicsRequirementsKHR, KHR_D3D12_enable);
-#endif // OXR_HAVE_KHR_D3D12_enable
+*/
 
     /*
      * Not logging here because there's no need to loudly advertise
@@ -317,20 +294,12 @@ xrGetInstanceProcAddr(XrInstance instance, const char *name, PFN_xrVoidFunction 
     }
 
 
-    /*struct oxr_instance *inst;
+    struct oxr_instance *inst;
 
     if (instance == 0) {
         return XR_ERROR_HANDLE_INVALID;
     }
     inst = (struct oxr_instance *) ((uintptr_t) instance);
-    if (inst->handle.debug != OXR_XR_DEBUG_INSTANCE) {
-        return XR_ERROR_HANDLE_INVALID;
-    }
-    if (inst->handle.state != OXR_HANDLE_STATE_LIVE) {
-        return XR_ERROR_HANDLE_INVALID;
-    }
 
-    return handle_non_null(inst, &log, name, function);*/
-
-    return XR_ERROR_FUNCTION_UNSUPPORTED;
+    return handle_non_null(inst, name, function);
 }

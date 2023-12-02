@@ -243,7 +243,7 @@ extern "C" {
  */
 
 XrResult
-oxr_verify_full_path_c(struct oxr_logger *log, const char *path, const char *name);
+oxr_verify_full_path_c(const char *path, const char *name);
 
 /*!
  * Verify a full path.
@@ -251,7 +251,7 @@ oxr_verify_full_path_c(struct oxr_logger *log, const char *path, const char *nam
  * Length not including zero terminator character but must be there.
  */
 XrResult
-oxr_verify_full_path(struct oxr_logger *log, const char *path, size_t length, const char *name);
+oxr_verify_full_path(const char *path, size_t length, const char *name);
 
 /*!
  * Verify a single path level that sits inside of a fixed sized array.

@@ -1,6 +1,7 @@
 #include "oxr_api_funcs.h"
 #include "openxr/openxr_platform.h"
 #include "openxr/openxr_platform_defines.h"
+#include "openxr/openxr_reflection.h"
 
 #include <android/log.h>
 #include <string>
@@ -204,10 +205,147 @@ xrCreateInstance(const XrInstanceCreateInfo *createInfo, XrInstance *out_instanc
 
     *out_instance = ((XrInstance)(uint64_t)(intptr_t)(inst));
 
-    //TODO LAUNCH REAL INSTANCE
-
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance calling mirage!");
 
     return initializeMirageApp(android_globals_get_vm(), android_globals_get_context());
 
+}
+
+XRAPI_ATTR XrResult XRAPI_CALL
+xrDestroyInstance(XrInstance instance)
+{
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrDestroyInstance called!");
+
+    if(instance != nullptr){
+        free(instance);
+    }
+
+    return XR_SUCCESS; //TODO MIRAGE DESTROY INSTANCE
+}
+
+XRAPI_ATTR XrResult XRAPI_CALL
+xrGetInstanceProperties(XrInstance instance, XrInstanceProperties *instanceProperties)
+{
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrGetInstanceProperties called!");
+
+    if(instance == nullptr){
+        return XR_ERROR_INSTANCE_LOST;
+    }
+
+    return XR_SUCCESS; //TODO : enumerate xrGetInstanceProperties
+}
+
+XRAPI_ATTR XrResult XRAPI_CALL
+xrPollEvent(XrInstance instance, XrEventDataBuffer *eventData)
+{
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrPollEvent called!");
+
+    if(instance == nullptr){
+        return XR_ERROR_INSTANCE_LOST;
+    }
+    if(eventData == nullptr){
+        return XR_ERROR_HANDLE_INVALID;
+    }
+
+    return XR_SUCCESS; //TODO : PollEvents()
+}
+
+XRAPI_ATTR XrResult XRAPI_CALL
+xrResultToString(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE])
+{
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrResultToString called!");
+
+    if(instance == nullptr){
+        return XR_ERROR_INSTANCE_LOST;
+    }
+
+#define MAKE_RESULT_CASE(VAL, _)                                                                                       \
+	case VAL: snprintf(buffer, XR_MAX_RESULT_STRING_SIZE, #VAL); break;
+
+    switch (value) {
+        XR_LIST_ENUM_XrResult(MAKE_RESULT_CASE);
+        default:
+            snprintf(buffer, XR_MAX_RESULT_STRING_SIZE, "XR_UNKNOWN_%s_%d", value < 0 ? "FAILURE" : "SUCCESS",
+                     value);
+    }
+
+    return XR_SUCCESS;
+}
+
+XRAPI_ATTR XrResult XRAPI_CALL
+xrStructureTypeToString(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE])
+{
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrStructureTypeToString called!");
+
+    if(instance == nullptr){
+        return XR_ERROR_INSTANCE_LOST;
+    }
+
+#define MAKE_TYPE_CASE(VAL, _)                                                                                         \
+	case VAL: snprintf(buffer, XR_MAX_RESULT_STRING_SIZE, #VAL); break;
+
+    switch (value) {
+        XR_LIST_ENUM_XrStructureType(MAKE_TYPE_CASE);
+        default: snprintf(buffer, XR_MAX_RESULT_STRING_SIZE, "XR_UNKNOWN_STRUCTURE_TYPE_%d", value);
+    }
+
+    return XR_SUCCESS;
+}
+
+XRAPI_ATTR XrResult XRAPI_CALL
+xrStringToPath(XrInstance instance, const char *pathString, XrPath *out_path)
+{
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrStringToPath called!");
+
+    if(instance == nullptr){
+        return XR_ERROR_INSTANCE_LOST;
+    }
+
+    XrResult ret;
+    oxr_path path;
+
+    ret = oxr_verify_full_path_c(pathString, "pathString");
+    if (ret != XR_SUCCESS) {
+        return ret;
+    }
+
+    ret = oxr_path_get_or_create(instance, pathString, strlen(pathString), &path);
+    if (ret != XR_SUCCESS) {
+        return ret;
+    }
+
+    *out_path = (XrPath)&path;
+
+    return XR_SUCCESS;
+}
+
+XRAPI_ATTR XrResult XRAPI_CALL
+xrPathToString(
+        XrInstance instance, XrPath path, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer)
+{
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrPathToString : xrPathToString called!");
+
+    const char *str;
+    size_t length;
+    XrResult ret;
+
+    if(instance == nullptr){
+        return XR_ERROR_INSTANCE_LOST;
+    }
+
+    if (path == XR_NULL_PATH) {
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", " xrPathToString :(path == XR_NULL_PATH");
+        return XR_ERROR_PATH_INVALID;
+    }
+
+    return oxr_path_get_string(instance, (oxr_path*)path, &str, &length);
+
+    /*if (ret != XR_SUCCESS) {
+        return ret;
+    }
+
+    // Length is the number of valid characters, not including the
+    // null termination character (but a extra null byte is always
+    // reserved).
+    OXR_TWO_CALL_HELPER(&log, bufferCapacityInput, bufferCountOutput, buffer, length + 1, str, XR_SUCCESS);*/
 }

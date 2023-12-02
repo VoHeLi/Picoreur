@@ -8,7 +8,9 @@
 #ifndef OPENXR_PLATFORM_DEFINES_H_
 #define OPENXR_PLATFORM_DEFINES_H_ 1
 
+#ifndef __ANDROID__
 #define __ANDROID__
+#endif
 
 #ifdef __cplusplus
 extern "C" {

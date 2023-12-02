@@ -22,7 +22,7 @@ public class PicoreurService extends Service {
     }
 
     // Declare a native method sayHello() that receives no arguments and returns void
-    private native void sayHello();
+    private native void loadRuntimeJNI();
 
     private static final String CHANNEL_ID = "PicoreurCanal";
 
@@ -30,7 +30,7 @@ public class PicoreurService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         afficherNotification();
-        sayHello();
+        loadRuntimeJNI();
 
         writeLoaderToApp();
 
@@ -80,6 +80,11 @@ public class PicoreurService extends Service {
 
         Notification notification = builder.build();
         startForeground(/*ID unique de la notification*/1, notification);
+    }
+
+    public String getNativeDir() {
+        // Implementation
+        return getApplicationContext().getApplicationInfo().nativeLibraryDir;
     }
 
     @Override

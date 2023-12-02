@@ -11,6 +11,8 @@
 #include "oxr_chain.h"
 #include "oxr_objects.h"
 
+#include "mirage_app/mirage_main.h"
+
 #include <cstdlib>
 #include <chrono>
 #include <ctime>
@@ -204,8 +206,8 @@ xrCreateInstance(const XrInstanceCreateInfo *createInfo, XrInstance *out_instanc
 
     //TODO LAUNCH REAL INSTANCE
 
-    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance success!");
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance calling mirage!");
 
-    return XR_SUCCESS;
+    return initializeMirageApp(android_globals_get_context(), android_globals_get_vm());
 
 }

@@ -75,7 +75,7 @@ xrGetSystemProperties(XrInstance instance, XrSystemId systemId, XrSystemProperti
         return XR_ERROR_INSTANCE_LOST;
     }
 
-    if(properties == nullptr){
+    /*if(properties == nullptr){
         return XR_ERROR_NAME_INVALID;
     }
 
@@ -85,11 +85,13 @@ xrGetSystemProperties(XrInstance instance, XrSystemId systemId, XrSystemProperti
 
     if(systemId == 0){
         return XR_ERROR_HANDLE_INVALID;
-    }
+    }*/
 
     XrResult result = getMirageSystemProperties(systemId, properties);
 
-    properties->vendorId = VENDOR_ID;
+    if(properties != nullptr){
+        properties->vendorId = VENDOR_ID;
+    }
 
     return result;
 }

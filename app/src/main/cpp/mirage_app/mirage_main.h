@@ -8,6 +8,8 @@
 static std::shared_ptr<IPlatformPlugin> miragePlatformPlugin;
 static XrInstance mirageInstance;
 
-XrResult initializeMirageApp(void* vm, void* clazz);
+XrResult initializeMirageAppInstance(void* vm, void* clazz);
 
+XrResult destroyMirageInstance();
 
+XrResult pollMirageEvents(XrEventDataBuffer *eventData);

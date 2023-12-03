@@ -61,7 +61,7 @@ void CreateInstance() {
     CreateInstanceInternal(miragePlatformPlugin);
 }
 
-XrResult initializeMirageApp(void* vm, void* clazz){
+XrResult initializeMirageAppInstance(void* vm, void* clazz){
 
     miragePlatformPlugin = CreatePlatformPlugin(vm, clazz);
 
@@ -85,3 +85,25 @@ XrResult initializeMirageApp(void* vm, void* clazz){
     return XR_SUCCESS;
 }
 
+XrResult destroyMirageInstance(){
+    PFN_xrDestroyInstance l_xrDestroyInstance;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(nullptr, "xrDestroyInstance", (PFN_xrVoidFunction *)&l_xrDestroyInstance))){
+        return l_xrDestroyInstance(mirageInstance);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrDestroyInstance not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
+//TODO : Control events
+XrResult pollMirageEvents(XrEventDataBuffer *eventData){
+    PFN_xrPollEvent l_xrPollEvent;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(nullptr, "xrPollEvent", (PFN_xrVoidFunction *)&l_xrPollEvent))){
+        return l_xrPollEvent(mirageInstance, eventData);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrPollEvent not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}

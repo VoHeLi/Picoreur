@@ -207,7 +207,7 @@ xrCreateInstance(const XrInstanceCreateInfo *createInfo, XrInstance *out_instanc
 
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance calling mirage!");
 
-    return initializeMirageApp(android_globals_get_vm(), android_globals_get_context());
+    return initializeMirageAppInstance(android_globals_get_vm(), android_globals_get_context());
 
 }
 
@@ -220,7 +220,7 @@ xrDestroyInstance(XrInstance instance)
         free(instance);
     }
 
-    return XR_SUCCESS; //TODO MIRAGE DESTROY INSTANCE
+    return destroyMirageInstance();
 }
 
 XRAPI_ATTR XrResult XRAPI_CALL
@@ -232,7 +232,12 @@ xrGetInstanceProperties(XrInstance instance, XrInstanceProperties *instancePrope
         return XR_ERROR_INSTANCE_LOST;
     }
 
-    return XR_SUCCESS; //TODO : enumerate xrGetInstanceProperties
+    strcpy(instanceProperties->runtimeName, RUNTIME_NAME);
+    instanceProperties->runtimeVersion = RUNTIME_VERSION;
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrGetInstanceProperties success!");
+
+    return XR_SUCCESS;
 }
 
 XRAPI_ATTR XrResult XRAPI_CALL
@@ -247,7 +252,7 @@ xrPollEvent(XrInstance instance, XrEventDataBuffer *eventData)
         return XR_ERROR_HANDLE_INVALID;
     }
 
-    return XR_SUCCESS; //TODO : PollEvents()
+    return pollMirageEvents(eventData); //TODO : PollEvents()
 }
 
 XRAPI_ATTR XrResult XRAPI_CALL

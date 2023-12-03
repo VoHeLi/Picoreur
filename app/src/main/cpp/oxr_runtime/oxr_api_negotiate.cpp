@@ -155,9 +155,17 @@ handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction 
     ENTRY(xrEnumerateViewConfigurationViews);
     ENTRY(xrGetOpenGLESGraphicsRequirementsKHR);
 
-    /*ENTRY(xrCreateSession);
+    ENTRY(xrCreateSession);
     ENTRY(xrDestroySession);
-    ENTRY(xrEnumerateReferenceSpaces);
+    ENTRY(xrBeginSession);
+    ENTRY(xrEndSession);
+    ENTRY(xrWaitFrame);
+    ENTRY(xrBeginFrame);
+    ENTRY(xrEndFrame);
+    ENTRY(xrRequestExitSession);
+    ENTRY(xrLocateViews);
+
+    /*ENTRY(xrEnumerateReferenceSpaces);
     ENTRY(xrCreateReferenceSpace);
     ENTRY(xrGetReferenceSpaceBoundsRect);
     ENTRY(xrCreateActionSpace);
@@ -171,13 +179,7 @@ handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction 
     ENTRY(xrAcquireSwapchainImage);
     ENTRY(xrWaitSwapchainImage);
     ENTRY(xrReleaseSwapchainImage);
-    ENTRY(xrBeginSession);
-    ENTRY(xrEndSession);
-    ENTRY(xrWaitFrame);
-    ENTRY(xrBeginFrame);
-    ENTRY(xrEndFrame);
-    ENTRY(xrRequestExitSession);
-    ENTRY(xrLocateViews);
+
     ENTRY(xrCreateActionSet);
     ENTRY(xrDestroyActionSet);
     ENTRY(xrCreateAction);

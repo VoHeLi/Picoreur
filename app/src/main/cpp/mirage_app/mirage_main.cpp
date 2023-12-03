@@ -185,3 +185,48 @@ XrResult mirageGetOpenGLESGraphicsRequirementsKHR(XrSystemId systemId, XrGraphic
         return XR_ERROR_FUNCTION_UNSUPPORTED;
     }
 }
+
+#define MIRAGE_CALL(function, ...) PFN_##function l_##function; \
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, #function, (PFN_xrVoidFunction *)&l_##function))){ \
+        return l_##function(__VA_ARGS__); \
+    } \
+    else{ \
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : %s not loaded from Lynx libopenxr_loader.so", #function); \
+        return XR_ERROR_FUNCTION_UNSUPPORTED; \
+    } \
+
+XrResult mirageCreateSession(const XrSessionCreateInfo *createInfo, XrSession *session){
+    MIRAGE_CALL(xrCreateSession, mirageInstance, createInfo, session);
+}
+
+XrResult mirageDestroySession(XrSession session){
+    MIRAGE_CALL(xrDestroySession, session);
+}
+
+XrResult mirageBeginSession(XrSession session, const XrSessionBeginInfo *beginInfo){
+    MIRAGE_CALL(xrBeginSession, session, beginInfo);
+}
+
+XrResult mirageEndSession(XrSession session){
+    MIRAGE_CALL(xrEndSession, session);
+}
+
+XrResult mirageWaitFrame(XrSession session, const XrFrameWaitInfo *frameWaitInfo, XrFrameState *frameState){
+    MIRAGE_CALL(xrWaitFrame, session, frameWaitInfo, frameState);
+}
+
+XrResult mirageBeginFrame(XrSession session, const XrFrameBeginInfo *frameBeginInfo){
+    MIRAGE_CALL(xrBeginFrame, session, frameBeginInfo);
+}
+
+XrResult mirageEndFrame(XrSession session, const XrFrameEndInfo *frameEndInfo){
+    MIRAGE_CALL(xrEndFrame, session, frameEndInfo);
+}
+
+XrResult mirageRequestExitSession(XrSession session){
+    MIRAGE_CALL(xrRequestExitSession, session);
+}
+
+XrResult mirageLocateViews(XrSession session, const XrViewLocateInfo *viewLocateInfo, XrViewState *viewState, uint32_t viewCapacityInput, uint32_t *viewCountOutput, XrView *views){
+    MIRAGE_CALL(xrLocateViews, session, viewLocateInfo, viewState, viewCapacityInput, viewCountOutput, views);
+}

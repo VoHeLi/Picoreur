@@ -27,3 +27,25 @@ XrResult mirageEnumerateViewConfigurationViews(XrSystemId systemId,XrViewConfigu
 XrResult mirageEnumerateEnvironmentBlendModes(XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t environmentBlendModeCapacityInput,uint32_t *environmentBlendModeCountOutput,XrEnvironmentBlendMode *environmentBlendModes);
 
 XrResult mirageGetOpenGLESGraphicsRequirementsKHR(XrSystemId systemId, XrGraphicsRequirementsOpenGLESKHR *graphicsRequirements);
+
+
+XrResult mirageCreateSession(const XrSessionCreateInfo *createInfo, XrSession *session);
+
+XrResult mirageDestroySession(XrSession session);
+
+XrResult mirageBeginSession(XrSession session, const XrSessionBeginInfo *beginInfo);
+
+XrResult mirageEndSession(XrSession session);
+
+XrResult mirageWaitFrame(XrSession session, const XrFrameWaitInfo *frameWaitInfo, XrFrameState *frameState);
+
+XrResult mirageBeginFrame(XrSession session, const XrFrameBeginInfo *frameBeginInfo);
+
+XrResult mirageEndFrame(XrSession session, const XrFrameEndInfo *frameEndInfo);
+
+XrResult mirageRequestExitSession(XrSession session);
+
+XrResult mirageLocateViews(XrSession session, const XrViewLocateInfo *viewLocateInfo, XrViewState *viewState, uint32_t viewCapacityInput, uint32_t *viewCountOutput, XrView *views);
+
+
+

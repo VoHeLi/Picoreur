@@ -177,42 +177,42 @@ xrGetOpenGLESGraphicsRequirementsKHR(XrInstance instance,
  * oxr_api_session.c
  *
  */
-/*
+
 //! OpenXR API function @ep{xrCreateSession}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrCreateSession(XrInstance instance, const XrSessionCreateInfo *createInfo, XrSession *session);
+xrCreateSession(XrInstance instance, const XrSessionCreateInfo *createInfo, XrSession *session);
 
 //! OpenXR API function @ep{xrDestroySession}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrDestroySession(XrSession session);
+xrDestroySession(XrSession session);
 
 //! OpenXR API function @ep{xrBeginSession}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrBeginSession(XrSession session, const XrSessionBeginInfo *beginInfo);
+xrBeginSession(XrSession session, const XrSessionBeginInfo *beginInfo);
 
 //! OpenXR API function @ep{xrEndSession}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrEndSession(XrSession session);
+xrEndSession(XrSession session);
 
 //! OpenXR API function @ep{xrWaitFrame}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrWaitFrame(XrSession session, const XrFrameWaitInfo *frameWaitInfo, XrFrameState *frameState);
+xrWaitFrame(XrSession session, const XrFrameWaitInfo *frameWaitInfo, XrFrameState *frameState);
 
 //! OpenXR API function @ep{xrBeginFrame}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrBeginFrame(XrSession session, const XrFrameBeginInfo *frameBeginInfo);
+xrBeginFrame(XrSession session, const XrFrameBeginInfo *frameBeginInfo);
 
 //! OpenXR API function @ep{xrEndFrame}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrEndFrame(XrSession session, const XrFrameEndInfo *frameEndInfo);
+xrEndFrame(XrSession session, const XrFrameEndInfo *frameEndInfo);
 
 //! OpenXR API function @ep{xrRequestExitSession}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrRequestExitSession(XrSession session);
+xrRequestExitSession(XrSession session);
 
 //! OpenXR API function @ep{xrLocateViews}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrLocateViews(XrSession session,
+xrLocateViews(XrSession session,
                   const XrViewLocateInfo *viewLocateInfo,
                   XrViewState *viewState,
                   uint32_t viewCapacityInput,

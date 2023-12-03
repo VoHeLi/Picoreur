@@ -28,7 +28,7 @@ include_directories(. oxr_runtime)
 # for GameActivity/NativeActivity derived applications, the same library name must be
 # used in the AndroidManifest.xml file.
 add_library(${CMAKE_PROJECT_NAME} SHARED runtime.cpp oxr_runtime/oxr_api_negotiate.cpp oxr_runtime/oxr_api_instance.cpp oxr_runtime/android_globals.cpp oxr_runtime/oxr_api_verify.cpp
-        mirage_app/mirage_main.cpp mirage_app/mirage_loader.cpp mirage_app/platformplugin.cpp oxr_runtime/oxr_path.cpp oxr_runtime/oxr_api_system.cpp)
+        mirage_app/mirage_main.cpp mirage_app/mirage_loader.cpp mirage_app/platformplugin.cpp oxr_runtime/oxr_path.cpp oxr_runtime/oxr_api_system.cpp oxr_runtime/oxr_api_session.cpp)
 
 
 # Specifies libraries CMake should link to your target library. You

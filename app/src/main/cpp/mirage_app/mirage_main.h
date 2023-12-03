@@ -63,3 +63,54 @@ XrResult mirageDestroySpace(XrSpace space);
 
 XrResult mirageCreateActionSpace(XrSession session, const XrActionSpaceCreateInfo *createInfo, XrSpace *space);
 
+
+//ACTIONS
+
+XrResult mirageCreateActionSet(const XrActionSetCreateInfo *createInfo, XrActionSet *actionSet);
+
+XrResult mirageDestroyActionSet(XrActionSet actionSet);
+
+XrResult mirageCreateAction(XrActionSet actionSet, const XrActionCreateInfo *createInfo, XrAction *action);
+
+XrResult mirageDestroyAction(XrAction action);
+
+XrResult mirageSuggestInteractionProfileBindings(const XrInteractionProfileSuggestedBinding *suggestedBindings);
+
+XrResult mirageAttachSessionActionSets(XrSession session, const XrSessionActionSetsAttachInfo *bindInfo);
+
+XrResult mirageGetCurrentInteractionProfile(XrSession session, XrPath topLevelUserPath, XrInteractionProfileState *interactionProfile);
+
+XrResult mirageGetActionStateBoolean(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateBoolean *data);
+
+XrResult mirageGetActionStateFloat(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateFloat *data);
+
+XrResult mirageGetActionStateVector2f(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateVector2f *data);
+
+XrResult mirageGetActionStatePose(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStatePose *data);
+
+XrResult mirageSyncActions(XrSession session, const XrActionsSyncInfo *syncInfo);
+
+XrResult mirageEnumerateBoundSourcesForAction(XrSession session, const XrBoundSourcesForActionEnumerateInfo *enumerateInfo,
+                                          uint32_t sourceCapacityInput, uint32_t *sourceCountOutput, XrPath *sources);
+
+XrResult mirageGetInputSourceLocalizedName(XrSession session, const XrInputSourceLocalizedNameGetInfo *getInfo,
+                                       uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer);
+
+XrResult mirageApplyHapticFeedback(XrSession session, const XrHapticActionInfo *hapticActionInfo, const XrHapticBaseHeader *hapticEvent);
+
+XrResult mirageStopHapticFeedback(XrSession session, const XrHapticActionInfo *hapticActionInfo);
+
+XrResult mirageCreateHandTrackerEXT(XrSession session, const XrHandTrackerCreateInfoEXT *createInfo, XrHandTrackerEXT *handTracker);
+
+XrResult mirageDestroyHandTrackerEXT(XrHandTrackerEXT handTracker);
+
+XrResult mirageLocateHandJointsEXT(XrHandTrackerEXT handTracker, const XrHandJointsLocateInfoEXT *locateInfo, XrHandJointLocationsEXT *locations);
+
+XrResult mirageApplyForceFeedbackCurlMNDX(XrHandTrackerEXT handTracker, const XrForceFeedbackCurlApplyLocationsMNDX *locations);
+
+XrResult mirageEnumerateDisplayRefreshRatesFB(XrSession session, uint32_t displayRefreshRateCapacityInput,
+                                          uint32_t *displayRefreshRateCountOutput, float *displayRefreshRates);
+
+XrResult mirageGetDisplayRefreshRateFB(XrSession session, float *displayRefreshRate);
+
+XrResult mirageRequestDisplayRefreshRateFB(XrSession session, float displayRefreshRate);

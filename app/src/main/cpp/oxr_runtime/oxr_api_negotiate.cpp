@@ -172,13 +172,7 @@ handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction 
     ENTRY(xrLocateSpace);
     ENTRY(xrDestroySpace);
 
-    /*ENTRY(xrEnumerateSwapchainFormats);
-    ENTRY(xrCreateSwapchain);
-    ENTRY(xrDestroySwapchain);
-    ENTRY(xrEnumerateSwapchainImages);
-    ENTRY(xrAcquireSwapchainImage);
-    ENTRY(xrWaitSwapchainImage);
-    ENTRY(xrReleaseSwapchainImage);
+
 
     ENTRY(xrCreateActionSet);
     ENTRY(xrDestroyActionSet);
@@ -195,7 +189,18 @@ handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction 
     ENTRY(xrEnumerateBoundSourcesForAction);
     ENTRY(xrGetInputSourceLocalizedName);
     ENTRY(xrApplyHapticFeedback);
-    ENTRY(xrStopHapticFeedback);*/
+    ENTRY(xrStopHapticFeedback);
+
+    /*ENTRY(xrEnumerateSwapchainFormats);
+    ENTRY(xrCreateSwapchain);
+    ENTRY(xrDestroySwapchain);
+    ENTRY(xrEnumerateSwapchainImages);
+    ENTRY(xrAcquireSwapchainImage);
+    ENTRY(xrWaitSwapchainImage);
+    ENTRY(xrReleaseSwapchainImage);
+
+
+     */
 /*
 #ifdef OXR_HAVE_KHR_visibility_mask
     ENTRY_IF_EXT(xrGetVisibilityMaskKHR, KHR_visibility_mask);

@@ -257,3 +257,101 @@ XrResult mirageDestroySpace(XrSpace space){
 XrResult mirageCreateActionSpace(XrSession session, const XrActionSpaceCreateInfo *createInfo, XrSpace *space){
     MIRAGE_CALL(xrCreateActionSpace, session, createInfo, space)
 }
+
+
+
+XrResult mirageCreateActionSet(const XrActionSetCreateInfo *createInfo, XrActionSet *actionSet) {
+    MIRAGE_CALL(xrCreateActionSet, mirageInstance, createInfo, actionSet);
+}
+
+XrResult mirageDestroyActionSet(XrActionSet actionSet) {
+    MIRAGE_CALL(xrDestroyActionSet, actionSet);
+}
+
+XrResult mirageCreateAction(XrActionSet actionSet, const XrActionCreateInfo *createInfo, XrAction *action) {
+    MIRAGE_CALL(xrCreateAction, actionSet, createInfo, action);
+}
+
+XrResult mirageDestroyAction(XrAction action) {
+    MIRAGE_CALL(xrDestroyAction, action);
+}
+
+XrResult mirageSuggestInteractionProfileBindings(const XrInteractionProfileSuggestedBinding *suggestedBindings) {
+    MIRAGE_CALL(xrSuggestInteractionProfileBindings, mirageInstance, suggestedBindings);
+}
+
+XrResult mirageAttachSessionActionSets(XrSession session, const XrSessionActionSetsAttachInfo *bindInfo) {
+    MIRAGE_CALL(xrAttachSessionActionSets, session, bindInfo);
+}
+
+XrResult mirageGetCurrentInteractionProfile(XrSession session, XrPath topLevelUserPath, XrInteractionProfileState *interactionProfile) {
+    MIRAGE_CALL(xrGetCurrentInteractionProfile, session, topLevelUserPath, interactionProfile);
+}
+
+XrResult mirageGetActionStateBoolean(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateBoolean *data) {
+    MIRAGE_CALL(xrGetActionStateBoolean, session, getInfo, data);
+}
+
+XrResult mirageGetActionStateFloat(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateFloat *data) {
+    MIRAGE_CALL(xrGetActionStateFloat, session, getInfo, data);
+}
+
+XrResult mirageGetActionStateVector2f(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateVector2f *data) {
+    MIRAGE_CALL(xrGetActionStateVector2f, session, getInfo, data);
+}
+
+XrResult mirageGetActionStatePose(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStatePose *data) {
+    MIRAGE_CALL(xrGetActionStatePose, session, getInfo, data);
+}
+
+XrResult mirageSyncActions(XrSession session, const XrActionsSyncInfo *syncInfo) {
+    MIRAGE_CALL(xrSyncActions, session, syncInfo);
+}
+
+XrResult mirageEnumerateBoundSourcesForAction(XrSession session, const XrBoundSourcesForActionEnumerateInfo *enumerateInfo,
+                                          uint32_t sourceCapacityInput, uint32_t *sourceCountOutput, XrPath *sources) {
+    MIRAGE_CALL(xrEnumerateBoundSourcesForAction, session, enumerateInfo, sourceCapacityInput, sourceCountOutput, sources);
+}
+
+XrResult mirageGetInputSourceLocalizedName(XrSession session, const XrInputSourceLocalizedNameGetInfo *getInfo,
+                                       uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer) {
+    MIRAGE_CALL(xrGetInputSourceLocalizedName, session, getInfo, bufferCapacityInput, bufferCountOutput, buffer);
+}
+
+XrResult mirageApplyHapticFeedback(XrSession session, const XrHapticActionInfo *hapticActionInfo, const XrHapticBaseHeader *hapticEvent) {
+    MIRAGE_CALL(xrApplyHapticFeedback, session, hapticActionInfo, hapticEvent);
+}
+
+XrResult mirageStopHapticFeedback(XrSession session, const XrHapticActionInfo *hapticActionInfo) {
+    MIRAGE_CALL(xrStopHapticFeedback, session, hapticActionInfo);
+}
+
+XrResult mirageCreateHandTrackerEXT(XrSession session, const XrHandTrackerCreateInfoEXT *createInfo, XrHandTrackerEXT *handTracker) {
+    MIRAGE_CALL(xrCreateHandTrackerEXT, session, createInfo, handTracker);
+}
+
+XrResult mirageDestroyHandTrackerEXT(XrHandTrackerEXT handTracker) {
+    MIRAGE_CALL(xrDestroyHandTrackerEXT, handTracker);
+}
+
+XrResult mirageLocateHandJointsEXT(XrHandTrackerEXT handTracker, const XrHandJointsLocateInfoEXT *locateInfo,
+                               XrHandJointLocationsEXT *locations) {
+    MIRAGE_CALL(xrLocateHandJointsEXT, handTracker, locateInfo, locations);
+}
+
+XrResult mirageApplyForceFeedbackCurlMNDX(XrHandTrackerEXT handTracker, const XrForceFeedbackCurlApplyLocationsMNDX *locations) {
+    MIRAGE_CALL(xrApplyForceFeedbackCurlMNDX, handTracker, locations);
+}
+
+XrResult mirageEnumerateDisplayRefreshRatesFB(XrSession session, uint32_t displayRefreshRateCapacityInput,
+                                          uint32_t *displayRefreshRateCountOutput, float *displayRefreshRates) {
+    MIRAGE_CALL(xrEnumerateDisplayRefreshRatesFB, session, displayRefreshRateCapacityInput, displayRefreshRateCountOutput, displayRefreshRates);
+}
+
+XrResult mirageGetDisplayRefreshRateFB(XrSession session, float *displayRefreshRate) {
+    MIRAGE_CALL(xrGetDisplayRefreshRateFB, session, displayRefreshRate);
+}
+
+XrResult mirageRequestDisplayRefreshRateFB(XrSession session, float displayRefreshRate) {
+    MIRAGE_CALL(xrRequestDisplayRefreshRateFB, session, displayRefreshRate);
+}

@@ -165,14 +165,14 @@ handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction 
     ENTRY(xrRequestExitSession);
     ENTRY(xrLocateViews);
 
-    /*ENTRY(xrEnumerateReferenceSpaces);
+    ENTRY(xrEnumerateReferenceSpaces);
     ENTRY(xrCreateReferenceSpace);
     ENTRY(xrGetReferenceSpaceBoundsRect);
     ENTRY(xrCreateActionSpace);
     ENTRY(xrLocateSpace);
     ENTRY(xrDestroySpace);
 
-    ENTRY(xrEnumerateSwapchainFormats);
+    /*ENTRY(xrEnumerateSwapchainFormats);
     ENTRY(xrCreateSwapchain);
     ENTRY(xrDestroySwapchain);
     ENTRY(xrEnumerateSwapchainImages);

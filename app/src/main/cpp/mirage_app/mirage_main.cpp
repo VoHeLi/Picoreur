@@ -230,3 +230,30 @@ XrResult mirageRequestExitSession(XrSession session){
 XrResult mirageLocateViews(XrSession session, const XrViewLocateInfo *viewLocateInfo, XrViewState *viewState, uint32_t viewCapacityInput, uint32_t *viewCountOutput, XrView *views){
     MIRAGE_CALL(xrLocateViews, session, viewLocateInfo, viewState, viewCapacityInput, viewCountOutput, views);
 }
+
+XrResult mirageEnumerateReferenceSpaces(XrSession session, //PASS TODO : maybe change reference space to stage?
+                                        uint32_t spaceCapacityInput,
+                                        uint32_t *spaceCountOutput,
+                                        XrReferenceSpaceType *spaces){
+    MIRAGE_CALL(xrEnumerateReferenceSpaces, session, spaceCapacityInput, spaceCountOutput, spaces)
+}
+
+XrResult mirageGetReferenceSpaceBoundsRect(XrSession session, XrReferenceSpaceType referenceSpaceType, XrExtent2Df *bounds){
+    MIRAGE_CALL(xrGetReferenceSpaceBoundsRect, session, referenceSpaceType, bounds)
+}
+
+XrResult mirageCreateReferenceSpace(XrSession session, const XrReferenceSpaceCreateInfo *createInfo, XrSpace *space){
+    MIRAGE_CALL(xrCreateReferenceSpace, session, createInfo, space)
+}
+
+XrResult mirageLocateSpace(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation *location){
+    MIRAGE_CALL(xrLocateSpace, space, baseSpace, time, location)
+}
+
+XrResult mirageDestroySpace(XrSpace space){
+    MIRAGE_CALL(xrDestroySpace, space)
+}
+
+XrResult mirageCreateActionSpace(XrSession session, const XrActionSpaceCreateInfo *createInfo, XrSpace *space){
+    MIRAGE_CALL(xrCreateActionSpace, session, createInfo, space)
+}

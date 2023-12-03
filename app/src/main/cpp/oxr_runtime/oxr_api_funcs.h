@@ -259,29 +259,33 @@ oxr_xrThermalGetTemperatureTrendEXT(XrSession session,
  * oxr_api_space.c
  *
  */
-/*
+
 //! OpenXR API function @ep{xrEnumerateReferenceSpaces}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrEnumerateReferenceSpaces(XrSession session,
+xrEnumerateReferenceSpaces(XrSession session, //PASS TODO : maybe change reference space to stage?
                                uint32_t spaceCapacityInput,
                                uint32_t *spaceCountOutput,
                                XrReferenceSpaceType *spaces);
 
 //! OpenXR API function @ep{xrGetReferenceSpaceBoundsRect}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetReferenceSpaceBoundsRect(XrSession session, XrReferenceSpaceType referenceSpaceType, XrExtent2Df *bounds);
+XRAPI_ATTR XrResult XRAPI_CALL // PASS TODO: update bounds?
+xrGetReferenceSpaceBoundsRect(XrSession session, XrReferenceSpaceType referenceSpaceType, XrExtent2Df *bounds);
 
 //! OpenXR API function @ep{xrCreateReferenceSpace}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrCreateReferenceSpace(XrSession session, const XrReferenceSpaceCreateInfo *createInfo, XrSpace *space);
+XRAPI_ATTR XrResult XRAPI_CALL // PASS TODO: Set origin
+xrCreateReferenceSpace(XrSession session, const XrReferenceSpaceCreateInfo *createInfo, XrSpace *space);
 
 //! OpenXR API function @ep{xrLocateSpace}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrLocateSpace(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation *location);
+XRAPI_ATTR XrResult XRAPI_CALL // PASS TODO : see usages
+xrLocateSpace(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation *location);
 
 //! OpenXR API function @ep{xrDestroySpace}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrDestroySpace(XrSpace space);
+XRAPI_ATTR XrResult XRAPI_CALL // PASS
+xrDestroySpace(XrSpace space);
+
+//! OpenXR API function @ep{xrCreateActionSpace}
+XRAPI_ATTR XrResult XRAPI_CALL // PASS TODO : Set Origin?
+xrCreateActionSpace(XrSession session, const XrActionSpaceCreateInfo *createInfo, XrSpace *space);
 
 
 /*
@@ -325,6 +329,7 @@ XRAPI_ATTR XrResult XRAPI_CALL
 oxr_xrReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo *releaseInfo);
 
 
+
 /*
  *
  * oxr_api_debug.c
@@ -365,15 +370,14 @@ XRAPI_ATTR XrResult XRAPI_CALL
 oxr_xrSessionInsertDebugUtilsLabelEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo);
 
 
+
 /*
  *
  * oxr_api_action.c
  *
  */
 /*
-//! OpenXR API function @ep{xrCreateActionSpace}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrCreateActionSpace(XrSession session, const XrActionSpaceCreateInfo *createInfo, XrSpace *space);
+
 
 //! OpenXR API function @ep{xrCreateActionSet}
 XRAPI_ATTR XrResult XRAPI_CALL

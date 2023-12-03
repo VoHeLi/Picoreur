@@ -147,10 +147,15 @@ handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction 
     ENTRY(xrStringToPath);
     ENTRY(xrPathToString);
 
-    /*ENTRY(xrGetSystem);
+    ENTRY(xrGetSystem);
     ENTRY(xrGetSystemProperties);
     ENTRY(xrEnumerateEnvironmentBlendModes);
-    ENTRY(xrCreateSession);
+    ENTRY(xrEnumerateViewConfigurations);
+    ENTRY(xrGetViewConfigurationProperties);
+    ENTRY(xrEnumerateViewConfigurationViews);
+    ENTRY(xrGetOpenGLESGraphicsRequirementsKHR);
+
+    /*ENTRY(xrCreateSession);
     ENTRY(xrDestroySession);
     ENTRY(xrEnumerateReferenceSpaces);
     ENTRY(xrCreateReferenceSpace);
@@ -158,9 +163,7 @@ handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction 
     ENTRY(xrCreateActionSpace);
     ENTRY(xrLocateSpace);
     ENTRY(xrDestroySpace);
-    ENTRY(xrEnumerateViewConfigurations);
-    ENTRY(xrGetViewConfigurationProperties);
-    ENTRY(xrEnumerateViewConfigurationViews);
+
     ENTRY(xrEnumerateSwapchainFormats);
     ENTRY(xrCreateSwapchain);
     ENTRY(xrDestroySwapchain);

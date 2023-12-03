@@ -107,7 +107,7 @@ xrEnumerateViewConfigurations(XrInstance instance,
     return mirageEnumerateViewConfigurations(systemId,viewConfigurationTypeCapacityInput, viewConfigurationTypeCountOutput, viewConfigurationTypes);
 }
 
-XRAPI_ATTR XrResult XRAPI_CALL //TODO ADD MR LATER
+XRAPI_ATTR XrResult XRAPI_CALL //TODO ADD MR LATER, CHANGE MODE, PASS FOR NOW
 xrEnumerateEnvironmentBlendModes(XrInstance instance,
                                      XrSystemId systemId,
                                      XrViewConfigurationType viewConfigurationType,
@@ -117,7 +117,7 @@ xrEnumerateEnvironmentBlendModes(XrInstance instance,
 {
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrEnumerateEnvironmentBlendModes called!");
 
-    if(instance == nullptr){
+    /*if(instance == nullptr){
         return XR_ERROR_INSTANCE_LOST;
     }
 
@@ -141,7 +141,9 @@ xrEnumerateEnvironmentBlendModes(XrInstance instance,
 
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrEnumerateEnvironmentBlendModes success!");
 
-    return XR_SUCCESS;
+    return XR_SUCCESS;*/
+
+    return mirageEnumerateEnvironmentBlendModes(systemId, viewConfigurationType, environmentBlendModeCapacityInput, environmentBlendModeCountOutput, environmentBlendModes);
 }
 
 XRAPI_ATTR XrResult XRAPI_CALL
@@ -204,7 +206,7 @@ xrGetOpenGLESGraphicsRequirementsKHR(XrInstance instance,
 
 	sys->gotten_requirements = true;*/
 
-	return XR_SUCCESS;
+	return mirageGetOpenGLESGraphicsRequirementsKHR(systemId, graphicsRequirements);
 }
 
 

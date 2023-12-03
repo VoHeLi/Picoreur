@@ -162,3 +162,26 @@ XrResult mirageEnumerateViewConfigurationViews(XrSystemId systemId,XrViewConfigu
         return XR_ERROR_FUNCTION_UNSUPPORTED;
     }
 }
+
+
+XrResult mirageEnumerateEnvironmentBlendModes(XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t environmentBlendModeCapacityInput,uint32_t *environmentBlendModeCountOutput,XrEnvironmentBlendMode *environmentBlendModes){
+    PFN_xrEnumerateEnvironmentBlendModes l_xrEnumerateEnvironmentBlendModes;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrEnumerateEnvironmentBlendModes", (PFN_xrVoidFunction *)&l_xrEnumerateEnvironmentBlendModes))){
+        return l_xrEnumerateEnvironmentBlendModes(mirageInstance, systemId, viewConfigurationType, environmentBlendModeCapacityInput, environmentBlendModeCountOutput, environmentBlendModes);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrEnumerateEnvironmentBlendModes not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
+XrResult mirageGetOpenGLESGraphicsRequirementsKHR(XrSystemId systemId, XrGraphicsRequirementsOpenGLESKHR *graphicsRequirements){
+    PFN_xrGetOpenGLESGraphicsRequirementsKHR l_xrGetOpenGLESGraphicsRequirementsKHR;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrGetOpenGLESGraphicsRequirementsKHR", (PFN_xrVoidFunction *)&l_xrGetOpenGLESGraphicsRequirementsKHR))){
+        return l_xrGetOpenGLESGraphicsRequirementsKHR(mirageInstance, systemId, graphicsRequirements);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrGetOpenGLESGraphicsRequirementsKHR not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}

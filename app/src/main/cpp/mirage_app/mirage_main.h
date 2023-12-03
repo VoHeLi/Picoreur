@@ -14,6 +14,14 @@ XrResult destroyMirageInstance();
 
 XrResult pollMirageEvents(XrEventDataBuffer *eventData);
 
+
+XrResult miragePathToString(XrPath path, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer);
+
+XrResult mirageStringToPath(const char *pathString, XrPath *out_path);
+
+
+
+
 XrResult getMirageSystem(const XrSystemGetInfo* systemGetInfo, XrSystemId* systemId);
 
 XrResult getMirageSystemProperties(XrSystemId systemId, XrSystemProperties *properties);

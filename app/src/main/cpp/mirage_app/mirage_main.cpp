@@ -108,6 +108,28 @@ XrResult pollMirageEvents(XrEventDataBuffer *eventData){
     }
 }
 
+XrResult miragePathToString(XrPath path, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer){
+    PFN_xrPathToString l_xrPathToString;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrPathToString", (PFN_xrVoidFunction *)&l_xrPathToString))){
+        return l_xrPathToString(mirageInstance, path, bufferCapacityInput, bufferCountOutput, buffer);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrPathToString not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
+XrResult mirageStringToPath(const char *pathString, XrPath *out_path){
+    PFN_xrStringToPath l_xrStringToPath;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrStringToPath", (PFN_xrVoidFunction *)&l_xrStringToPath))){
+        return l_xrStringToPath(mirageInstance, pathString, out_path);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrStringToPath not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
 XrResult getMirageSystem(const XrSystemGetInfo* systemGetInfo, XrSystemId* systemId){
     PFN_xrGetSystem l_xrGetSystem;
     if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrGetSystem", (PFN_xrVoidFunction *)&l_xrGetSystem))){

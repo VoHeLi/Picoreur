@@ -297,12 +297,12 @@ xrStructureTypeToString(XrInstance instance, XrStructureType value, char buffer[
     return XR_SUCCESS;
 }
 
-XRAPI_ATTR XrResult XRAPI_CALL
+XRAPI_ATTR XrResult XRAPI_CALL //PASS
 xrStringToPath(XrInstance instance, const char *pathString, XrPath *out_path)
 {
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrStringToPath called!");
 
-    if(instance == nullptr){
+    /*if(instance == nullptr){
         return XR_ERROR_INSTANCE_LOST;
     }
 
@@ -321,16 +321,18 @@ xrStringToPath(XrInstance instance, const char *pathString, XrPath *out_path)
 
     *out_path = (XrPath)&path;
 
-    return XR_SUCCESS;
+    return XR_SUCCESS;*/
+
+    return mirageStringToPath(pathString, out_path);
 }
 
-XRAPI_ATTR XrResult XRAPI_CALL
+XRAPI_ATTR XrResult XRAPI_CALL //PASS
 xrPathToString(
         XrInstance instance, XrPath path, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer)
 {
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrPathToString : xrPathToString called!");
 
-    const char *str;
+    /*const char *str;
     size_t length;
     XrResult ret;
 
@@ -353,4 +355,6 @@ xrPathToString(
     // null termination character (but a extra null byte is always
     // reserved).
     OXR_TWO_CALL_HELPER(&log, bufferCapacityInput, bufferCountOutput, buffer, length + 1, str, XR_SUCCESS);*/
+
+    return miragePathToString(path, bufferCapacityInput, bufferCountOutput, buffer);
 }

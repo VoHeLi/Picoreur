@@ -18,6 +18,9 @@
 
 #define RUNTIME_NAME "PICOREUR Runtime"
 #define RUNTIME_VERSION XrVersion XR_MAKE_VERSION(0,0,1)
+#define VENDOR_ID 0x2982
+//TODO : find the good VENDOR_ID
+
 
 // beginning of GENERATED defines - do not modify - used by scripts
 

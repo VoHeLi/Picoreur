@@ -87,7 +87,7 @@ XrResult initializeMirageAppInstance(void* vm, void* clazz){
 
 XrResult destroyMirageInstance(){
     PFN_xrDestroyInstance l_xrDestroyInstance;
-    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(nullptr, "xrDestroyInstance", (PFN_xrVoidFunction *)&l_xrDestroyInstance))){
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrDestroyInstance", (PFN_xrVoidFunction *)&l_xrDestroyInstance))){
         return l_xrDestroyInstance(mirageInstance);
     }
     else{
@@ -99,11 +99,66 @@ XrResult destroyMirageInstance(){
 //TODO : Control events
 XrResult pollMirageEvents(XrEventDataBuffer *eventData){
     PFN_xrPollEvent l_xrPollEvent;
-    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(nullptr, "xrPollEvent", (PFN_xrVoidFunction *)&l_xrPollEvent))){
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrPollEvent", (PFN_xrVoidFunction *)&l_xrPollEvent))){
         return l_xrPollEvent(mirageInstance, eventData);
     }
     else{
         __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrPollEvent not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
+XrResult getMirageSystem(const XrSystemGetInfo* systemGetInfo, XrSystemId* systemId){
+    PFN_xrGetSystem l_xrGetSystem;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrGetSystem", (PFN_xrVoidFunction *)&l_xrGetSystem))){
+        return l_xrGetSystem(mirageInstance, systemGetInfo, systemId);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrGetSystem not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
+XrResult getMirageSystemProperties(XrSystemId systemId, XrSystemProperties *properties){
+    PFN_xrGetSystemProperties l_xrGetSystemProperties;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrGetSystemProperties", (PFN_xrVoidFunction *)&l_xrGetSystemProperties))){
+        return l_xrGetSystemProperties(mirageInstance, systemId, properties);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrGetSystemProperties not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
+XrResult mirageEnumerateViewConfigurations( XrSystemId systemId, uint32_t viewConfigurationTypeCapacityInput, uint32_t *viewConfigurationTypeCountOutput, XrViewConfigurationType *viewConfigurationTypes){
+    PFN_xrEnumerateViewConfigurations l_xrEnumerateViewConfigurations;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrEnumerateViewConfigurations", (PFN_xrVoidFunction *)&l_xrEnumerateViewConfigurations))){
+        return l_xrEnumerateViewConfigurations(mirageInstance, systemId, viewConfigurationTypeCapacityInput, viewConfigurationTypeCountOutput, viewConfigurationTypes);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrEnumerateViewConfigurations not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
+XrResult mirageGetViewConfigurationProperties(XrSystemId systemId, XrViewConfigurationType viewConfigurationType, XrViewConfigurationProperties *configurationProperties){
+    PFN_xrGetViewConfigurationProperties l_xrGetViewConfigurationProperties;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrGetViewConfigurationProperties", (PFN_xrVoidFunction *)&l_xrGetViewConfigurationProperties))){
+        return l_xrGetViewConfigurationProperties(mirageInstance, systemId, viewConfigurationType, configurationProperties);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrGetViewConfigurationProperties not loaded from Lynx libopenxr_loader.so");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
+}
+
+XrResult mirageEnumerateViewConfigurationViews(XrSystemId systemId,XrViewConfigurationType viewConfigurationType, uint32_t viewCapacityInput, uint32_t *viewCountOutput, XrViewConfigurationView *views){
+    PFN_xrEnumerateViewConfigurationViews l_xrEnumerateViewConfigurationViews;
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, "xrEnumerateViewConfigurationViews", (PFN_xrVoidFunction *)&l_xrEnumerateViewConfigurationViews))){
+        return l_xrEnumerateViewConfigurationViews(mirageInstance, systemId, viewConfigurationType, viewCapacityInput, viewCountOutput, views);
+    }
+    else{
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrEnumerateViewConfigurationViews not loaded from Lynx libopenxr_loader.so");
         return XR_ERROR_FUNCTION_UNSUPPORTED;
     }
 }

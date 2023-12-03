@@ -18,8 +18,7 @@
 #include "../openxr/openxr_runtime.h"
 #include "../openxr/openxr_platform_defines.h"
 #include "../typedef.h"
-
-
+#include "openxr/openxr_platform.h"
 
 
 extern "C" {
@@ -114,6 +113,7 @@ oxr_xrConvertTimespecTimeToTimeKHR(XrInstance instance, const struct timespec *t
 //! OpenXR API function @ep{xrConvertTimeToTimespecTimeKHR}
 XRAPI_ATTR XrResult XRAPI_CALL
 oxr_xrConvertTimeToTimespecTimeKHR(XrInstance instance, XrTime time, struct timespec *timespecTime);
+*/
 
 
 /*
@@ -121,18 +121,18 @@ oxr_xrConvertTimeToTimespecTimeKHR(XrInstance instance, XrTime time, struct time
  * oxr_api_system.c
  *
  */
-/*
+
 //! OpenXR API function @ep{xrGetSystem}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetSystem(XrInstance instance, const XrSystemGetInfo *getInfo, XrSystemId *systemId);
+xrGetSystem(XrInstance instance, const XrSystemGetInfo *getInfo, XrSystemId *systemId);
 
 //! OpenXR API function @ep{xrGetSystemProperties}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetSystemProperties(XrInstance instance, XrSystemId systemId, XrSystemProperties *properties);
+xrGetSystemProperties(XrInstance instance, XrSystemId systemId, XrSystemProperties *properties);
 
 //! OpenXR API function @ep{xrEnumerateViewConfigurations}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrEnumerateViewConfigurations(XrInstance instance,
+xrEnumerateViewConfigurations(XrInstance instance,
                                   XrSystemId systemId,
                                   uint32_t viewConfigurationTypeCapacityInput,
                                   uint32_t *viewConfigurationTypeCountOutput,
@@ -140,14 +140,14 @@ oxr_xrEnumerateViewConfigurations(XrInstance instance,
 
 //! OpenXR API function @ep{xrGetViewConfigurationProperties}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetViewConfigurationProperties(XrInstance instance,
+xrGetViewConfigurationProperties(XrInstance instance,
                                      XrSystemId systemId,
                                      XrViewConfigurationType viewConfigurationType,
                                      XrViewConfigurationProperties *configurationProperties);
 
 //! OpenXR API function @ep{xrEnumerateViewConfigurationViews}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrEnumerateViewConfigurationViews(XrInstance instance,
+xrEnumerateViewConfigurationViews(XrInstance instance,
                                       XrSystemId systemId,
                                       XrViewConfigurationType viewConfigurationType,
                                       uint32_t viewCapacityInput,
@@ -156,103 +156,21 @@ oxr_xrEnumerateViewConfigurationViews(XrInstance instance,
 
 //! OpenXR API function @ep{xrEnumerateEnvironmentBlendModes}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrEnumerateEnvironmentBlendModes(XrInstance instance,
+xrEnumerateEnvironmentBlendModes(XrInstance instance,
                                      XrSystemId systemId,
                                      XrViewConfigurationType viewConfigurationType,
                                      uint32_t environmentBlendModeCapacityInput,
                                      uint32_t *environmentBlendModeCountOutput,
                                      XrEnvironmentBlendMode *environmentBlendModes);
 
-#ifdef XR_USE_GRAPHICS_API_OPENGL
-//! OpenXR API function @ep{xrGetOpenGLGraphicsRequirementsKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetOpenGLGraphicsRequirementsKHR(XrInstance instance,
-                                       XrSystemId systemId,
-                                       XrGraphicsRequirementsOpenGLKHR *graphicsRequirements);
-#endif
 
-#ifdef XR_USE_GRAPHICS_API_OPENGL_ES
 //! OpenXR API function @ep{xrGetOpenGLESGraphicsRequirementsKHR}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetOpenGLESGraphicsRequirementsKHR(XrInstance instance,
+xrGetOpenGLESGraphicsRequirementsKHR(XrInstance instance,
                                          XrSystemId systemId,
                                          XrGraphicsRequirementsOpenGLESKHR *graphicsRequirements);
-#endif
 
-#ifdef XR_USE_GRAPHICS_API_VULKAN
-//! OpenXR API function @ep{xrGetVulkanInstanceExtensionsKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetVulkanInstanceExtensionsKHR(XrInstance instance,
-                                     XrSystemId systemId,
-                                     uint32_t namesCapacityInput,
-                                     uint32_t *namesCountOutput,
-                                     char *namesString);
 
-//! OpenXR API function @ep{xrGetVulkanDeviceExtensionsKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetVulkanDeviceExtensionsKHR(XrInstance instance,
-                                   XrSystemId systemId,
-                                   uint32_t namesCapacityInput,
-                                   uint32_t *namesCountOutput,
-                                   char *namesString);
-
-//! OpenXR API function @ep{xrGetVulkanGraphicsDeviceKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetVulkanGraphicsDeviceKHR(XrInstance instance,
-                                 XrSystemId systemId,
-                                 VkInstance vkInstance,
-                                 VkPhysicalDevice *vkPhysicalDevice);
-
-//! OpenXR API function @ep{xrGetVulkanGraphicsDeviceKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetVulkanGraphicsDevice2KHR(XrInstance instance,
-                                  const XrVulkanGraphicsDeviceGetInfoKHR *getInfo,
-                                  VkPhysicalDevice *vkPhysicalDevice);
-
-//! OpenXR API function @ep{xrGetVulkanGraphicsRequirementsKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetVulkanGraphicsRequirementsKHR(XrInstance instance,
-                                       XrSystemId systemId,
-                                       XrGraphicsRequirementsVulkanKHR *graphicsRequirements);
-
-//! OpenXR API function @ep{xrGetVulkanGraphicsRequirements2KHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetVulkanGraphicsRequirements2KHR(XrInstance instance,
-                                        XrSystemId systemId,
-                                        XrGraphicsRequirementsVulkan2KHR *graphicsRequirements);
-
-//! OpenXR API function @ep{xrCreateVulkanInstanceKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrCreateVulkanInstanceKHR(XrInstance instance,
-                              const XrVulkanInstanceCreateInfoKHR *createInfo,
-                              VkInstance *vulkanInstance,
-                              VkResult *vulkanResult);
-
-//! OpenXR API function @ep{xrCreateVulkanDeviceKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrCreateVulkanDeviceKHR(XrInstance instance,
-                            const XrVulkanDeviceCreateInfoKHR *createInfo,
-                            VkDevice *vulkanDevice,
-                            VkResult *vulkanResult);
-#endif
-
-#ifdef XR_USE_GRAPHICS_API_D3D11
-
-//! OpenXR API function @ep{xrGetD3D11GraphicsRequirementsKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetD3D11GraphicsRequirementsKHR(XrInstance instance,
-                                      XrSystemId systemId,
-                                      XrGraphicsRequirementsD3D11KHR *graphicsRequirements);
-#endif // XR_USE_GRAPHICS_API_D3D11
-
-#ifdef XR_USE_GRAPHICS_API_D3D12
-
-//! OpenXR API function @ep{xrGetD3D11GraphicsRequirementsKHR}
-XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrGetD3D12GraphicsRequirementsKHR(XrInstance instance,
-                                      XrSystemId systemId,
-                                      XrGraphicsRequirementsD3D12KHR *graphicsRequirements);
-#endif // XR_USE_GRAPHICS_API_D3D12
 
 /*
  *

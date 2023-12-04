@@ -7,8 +7,17 @@
 class oxr_instance{
 public:
     int _instance_id;
+    int _truc;
+    int _truc2;
+    int _truc1;
+    int _truc22;
+    int _truc11;
+    int _truc223;
+    int _truc23;
+    int _truc24;
     inline oxr_instance(int instance_id){
         _instance_id = instance_id;
+
     }
 
 };

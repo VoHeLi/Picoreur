@@ -335,39 +335,39 @@ xrReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo
  * oxr_api_debug.c
  *
  */
-/*
+
 //! OpenXR API function @ep{xrSetDebugUtilsObjectNameEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrSetDebugUtilsObjectNameEXT(XrInstance instance, const XrDebugUtilsObjectNameInfoEXT *nameInfo);
+xrSetDebugUtilsObjectNameEXT(XrInstance instance, const XrDebugUtilsObjectNameInfoEXT *nameInfo);
 
 //! OpenXR API function @ep{xrCreateDebugUtilsMessengerEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrCreateDebugUtilsMessengerEXT(XrInstance instance,
+xrCreateDebugUtilsMessengerEXT(XrInstance instance,
                                    const XrDebugUtilsMessengerCreateInfoEXT *createInfo,
                                    XrDebugUtilsMessengerEXT *messenger);
 
 //! OpenXR API function @ep{xrDestroyDebugUtilsMessengerEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrDestroyDebugUtilsMessengerEXT(XrDebugUtilsMessengerEXT messenger);
+xrDestroyDebugUtilsMessengerEXT(XrDebugUtilsMessengerEXT messenger);
 
 //! OpenXR API function @ep{xrSubmitDebugUtilsMessageEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrSubmitDebugUtilsMessageEXT(XrInstance instance,
+xrSubmitDebugUtilsMessageEXT(XrInstance instance,
                                  XrDebugUtilsMessageSeverityFlagsEXT messageSeverity,
                                  XrDebugUtilsMessageTypeFlagsEXT messageTypes,
                                  const XrDebugUtilsMessengerCallbackDataEXT *callbackData);
 
 //! OpenXR API function @ep{xrSessionBeginDebugUtilsLabelRegionEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrSessionBeginDebugUtilsLabelRegionEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo);
+xrSessionBeginDebugUtilsLabelRegionEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo);
 
 //! OpenXR API function @ep{xrSessionEndDebugUtilsLabelRegionEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrSessionEndDebugUtilsLabelRegionEXT(XrSession session);
+xrSessionEndDebugUtilsLabelRegionEXT(XrSession session);
 
 //! OpenXR API function @ep{xrSessionInsertDebugUtilsLabelEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrSessionInsertDebugUtilsLabelEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo);
+xrSessionInsertDebugUtilsLabelEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo);
 
 
 

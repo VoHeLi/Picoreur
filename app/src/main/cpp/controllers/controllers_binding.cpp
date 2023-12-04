@@ -16,6 +16,16 @@ void TryRegisterControllerPath(XrPath path, const char* pathStr){
     else if(strcmp(pathStr, handSpacesPathNames[RIGHT_HAND])){
         handPaths[RIGHT_HAND] = path;
     }
+    else if(strcmp(pathStr, "/interaction_profiles/bytedance/pico4_controller")){
+        interactionProfilePath = path;
+    }
+    else{
+        for(int i = 0; i < 33; i++){
+            if(strcmp(pathStr, controllerPathNames[i])){
+                controllerPaths[i] = path;
+            }
+        }
+    }
 }
 
 void TryRegisterControllerSpace(XrSpace space, XrPath path){
@@ -67,4 +77,26 @@ void GetControllerSpacePose(XrSpace space, XrPosef* pose){
         pose->position.y = sinusoidalValue;
     }*/
 
+}
+
+void TryRegisterActionSet(XrActionSet actionSet, const char* actionSetName){
+    if(strcmp(actionSetName, controllersActionSetName)){
+        controllersActionSet = actionSet;
+    }
+}
+
+void TryRegisterAction(XrAction action, const char* actionName){
+    for(int i = 0; i < 17; i++){
+        if(strcmp(actionName, controllersActionsNames[i])){
+            controllersActions[i] = action;
+        }
+    }
+}
+
+XrResult GetControllerDefaultBinding(const XrInteractionProfileSuggestedBinding *suggestedBindings){
+    if(controllersActionSet == NULL){
+        return XR_ERROR_PATH_UNSUPPORTED;
+    }
+
+    return XR_SUCCESS;
 }

@@ -6,14 +6,29 @@
 #include <android/log.h>
 
 #include "mirage_app/mirage_main.h"
+#include "controllers/controllers_binding.h"
 
 #define PASS_MIRAGE(function, ...) __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called!", #function); \
-return mirage##function(__VA_ARGS__);
+XrResult res = mirage##function(__VA_ARGS__); \
+__android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called with result : %p", #function, res);\
+return res;
 
 //! OpenXR API function @ep{xrCreateActionSet}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrCreateActionSet(XrInstance instance, const XrActionSetCreateInfo *createInfo, XrActionSet *actionSet){
-    PASS_MIRAGE(CreateActionSet, createInfo, actionSet);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "mirageCreateActionSet : %s", createInfo->actionSetName);
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called!", "CreateActionSet");
+
+
+    XrResult result = mirageCreateActionSet(createInfo, actionSet);
+    if(result != XR_SUCCESS){
+        return result;
+    }
+
+    TryRegisterActionSet(*actionSet, createInfo->actionSetName);
+
+    return result;
 }
 
 //! OpenXR API function @ep{xrDestroyActionSet}
@@ -25,7 +40,18 @@ xrDestroyActionSet(XrActionSet actionSet){
 //! OpenXR API function @ep{xrCreateAction}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrCreateAction(XrActionSet actionSet, const XrActionCreateInfo *createInfo, XrAction *action){
-    PASS_MIRAGE(CreateAction, actionSet, createInfo, action);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "mirageCreateAction : %s", createInfo->actionName);
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called!", "CreateAction");
+    XrResult result = mirageCreateAction(actionSet, createInfo, action);
+
+    if(result != XR_SUCCESS){
+        return result;
+    }
+
+    TryRegisterAction(*action, createInfo->actionName);
+
+    return result;
 }
 
 //! OpenXR API function @ep{xrDestroyAction}
@@ -38,7 +64,11 @@ xrDestroyAction(XrAction action){
 XRAPI_ATTR XrResult XRAPI_CALL
 xrSuggestInteractionProfileBindings(XrInstance instance,
                                     const XrInteractionProfileSuggestedBinding *suggestedBindings){
-    PASS_MIRAGE(SuggestInteractionProfileBindings, suggestedBindings);
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "xrSuggestInteractionProfileBindings called!");
+    return GetControllerDefaultBinding(suggestedBindings);
+
+    //PASS_MIRAGE(SuggestInteractionProfileBindings, suggestedBindings);
 }
 
 //! OpenXR API function @ep{xrAttachSessionActionSets}

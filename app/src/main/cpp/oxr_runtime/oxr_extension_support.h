@@ -19,6 +19,9 @@
 #define RUNTIME_NAME "PICOREUR Runtime"
 #define RUNTIME_VERSION XrVersion XR_MAKE_VERSION(0,0,1)
 #define VENDOR_ID 0x2982
+#define XR_PICO_CONFIGURATION_SPEC_VERSION 1
+#define XR_PICO_CONFIGURATION_EXTENSION_NAME "XR_PICO_configuration"
+
 //TODO : find the good VENDOR_ID
 
 
@@ -31,7 +34,8 @@
 #define OXR_HAVE_KHR_android_create_instance
 #define OXR_EXTENSION_SUPPORT_KHR_android_create_instance(_) _(KHR_android_create_instance, KHR_ANDROID_CREATE_INSTANCE)
 
-
+#define OXR_FEATURE_CONTROLLER_INTERACTION(_) _(BD_controller_interaction, BD_CONTROLLER_INTERACTION)
+#define OXR_EXTENSION_SUPPORT_PICO_CONFIGURATION(_) _(PICO_CONFIGURATION, PICO_CONFIGURATION)
 
 /*
  * XR_KHR_android_thread_settings
@@ -585,7 +589,9 @@
     OXR_EXTENSION_SUPPORT_MNDX_egl_enable(_) \
     OXR_EXTENSION_SUPPORT_MNDX_force_feedback_curl(_) \
     OXR_EXTENSION_SUPPORT_MNDX_hydra(_) \
-    OXR_EXTENSION_SUPPORT_MNDX_system_buttons(_)
+    OXR_EXTENSION_SUPPORT_MNDX_system_buttons(_)         \
+    OXR_FEATURE_CONTROLLER_INTERACTION(_) \
+    OXR_EXTENSION_SUPPORT_PICO_CONFIGURATION(_)                               \
 // clang-format on
 
 

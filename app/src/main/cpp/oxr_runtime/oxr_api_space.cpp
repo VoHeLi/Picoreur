@@ -20,7 +20,7 @@
 #include <inttypes.h>
 
 
-
+#include "controllers/controllers_binding.h"
 
 XRAPI_ATTR XrResult XRAPI_CALL
 xrEnumerateReferenceSpaces(XrSession session, //PASS TODO : maybe change reference space to stage?
@@ -56,8 +56,14 @@ XRAPI_ATTR XrResult XRAPI_CALL // PASS TODO : see usages
 xrLocateSpace(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation *location){
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrLocateSpace called!");
 
+    XrResult result = mirageLocateSpace(space, baseSpace, time, location);
+    if(result != XR_SUCCESS) return result;
 
-    return mirageLocateSpace(space, baseSpace, time, location);
+    //TryRegisterControllerSpace(*space, createInfo->subactionPath);
+    GetControllerSpacePose(space, &location->pose);
+
+    return result;
+
 }
 
 
@@ -75,5 +81,10 @@ xrCreateActionSpace(XrSession session, const XrActionSpaceCreateInfo *createInfo
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateActionSpace called!");
 
 
-    return mirageCreateActionSpace(session, createInfo, space);
+    XrResult result = mirageCreateActionSpace(session, createInfo, space);
+    if(result != XR_SUCCESS) return result;
+
+    TryRegisterControllerSpace(*space, createInfo->subactionPath);
+
+    return result;
 }

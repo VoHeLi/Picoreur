@@ -377,3 +377,32 @@ XrResult mirageGetDisplayRefreshRateFB(XrSession session, float *displayRefreshR
 XrResult mirageRequestDisplayRefreshRateFB(XrSession session, float displayRefreshRate) {
     MIRAGE_CALL(xrRequestDisplayRefreshRateFB, session, displayRefreshRate);
 }
+
+
+XrResult mirageEnumerateSwapchainFormats(XrSession session, uint32_t formatCapacityInput, uint32_t *formatCountOutput, int64_t *formats){
+    MIRAGE_CALL(xrEnumerateSwapchainFormats, session, formatCapacityInput, formatCountOutput, formats);
+}
+
+XrResult mirageCreateSwapchain(XrSession session, const XrSwapchainCreateInfo *createInfo, XrSwapchain *swapchain){
+    MIRAGE_CALL(xrCreateSwapchain, session, createInfo, swapchain);
+}
+
+XrResult mirageDestroySwapchain(XrSwapchain swapchain){
+    MIRAGE_CALL(xrDestroySwapchain, swapchain);
+}
+
+XrResult mirageEnumerateSwapchainImages(XrSwapchain swapchain, uint32_t imageCapacityInput, uint32_t *imageCountOutput, XrSwapchainImageBaseHeader *images){
+    MIRAGE_CALL(xrEnumerateSwapchainImages, swapchain, imageCapacityInput, imageCountOutput, images);
+}
+
+XrResult mirageAcquireSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageAcquireInfo *acquireInfo, uint32_t *index){
+    MIRAGE_CALL(xrAcquireSwapchainImage, swapchain, acquireInfo, index);
+}
+
+XrResult mirageWaitSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageWaitInfo *waitInfo){
+    MIRAGE_CALL(xrWaitSwapchainImage, swapchain, waitInfo);
+}
+
+XrResult mirageReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo *releaseInfo){
+    MIRAGE_CALL(xrReleaseSwapchainImage, swapchain, releaseInfo);
+}

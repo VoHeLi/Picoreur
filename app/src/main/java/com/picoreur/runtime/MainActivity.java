@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
         //intent.setAction("org.khronos.openxr.OpenXRRuntimeService");
         startService(intent);
 
+
         finish();
     }
 }

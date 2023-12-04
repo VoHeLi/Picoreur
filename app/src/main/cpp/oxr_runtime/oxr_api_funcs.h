@@ -293,40 +293,40 @@ xrCreateActionSpace(XrSession session, const XrActionSpaceCreateInfo *createInfo
  * oxr_api_swapchain.c
  *
  */
-/*
-//! OpenXR API function @ep{xrEnumerateSwapchainFormats}
+
+//! OpenXR API function @ep{xrEnumerateSwapchainFormats} //PASS TODO CHECK IF THIS CAUSES PROBLEMS
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrEnumerateSwapchainFormats(XrSession session,
+xrEnumerateSwapchainFormats(XrSession session,
                                 uint32_t formatCapacityInput,
                                 uint32_t *formatCountOutput,
                                 int64_t *formats);
 
 //! OpenXR API function @ep{xrCreateSwapchain}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrCreateSwapchain(XrSession session, const XrSwapchainCreateInfo *createInfo, XrSwapchain *swapchain);
+xrCreateSwapchain(XrSession session, const XrSwapchainCreateInfo *createInfo, XrSwapchain *swapchain);
 
 //! OpenXR API function @ep{xrDestroySwapchain}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrDestroySwapchain(XrSwapchain swapchain);
+xrDestroySwapchain(XrSwapchain swapchain);
 
 //! OpenXR API function @ep{xrEnumerateSwapchainImages}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrEnumerateSwapchainImages(XrSwapchain swapchain,
+xrEnumerateSwapchainImages(XrSwapchain swapchain,
                                uint32_t imageCapacityInput,
                                uint32_t *imageCountOutput,
                                XrSwapchainImageBaseHeader *images);
 
 //! OpenXR API function @ep{xrAcquireSwapchainImage}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrAcquireSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageAcquireInfo *acquireInfo, uint32_t *index);
+xrAcquireSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageAcquireInfo *acquireInfo, uint32_t *index);
 
 //! OpenXR API function @ep{xrWaitSwapchainImage}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrWaitSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageWaitInfo *waitInfo);
+xrWaitSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageWaitInfo *waitInfo);
 
 //! OpenXR API function @ep{xrReleaseSwapchainImage}
 XRAPI_ATTR XrResult XRAPI_CALL
-oxr_xrReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo *releaseInfo);
+xrReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo *releaseInfo);
 
 
 

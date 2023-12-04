@@ -18,6 +18,7 @@
 #include <chrono>
 #include <ctime>
 
+#include "controllers/controllers_binding.h"
 
 #define ARRAY_SIZE(array) sizeof(array)/sizeof(array[0])
 
@@ -302,6 +303,8 @@ xrStringToPath(XrInstance instance, const char *pathString, XrPath *out_path)
 {
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrStringToPath called!");
 
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOCO", "xrStringToPath : %s", pathString);
+
     /*if(instance == nullptr){
         return XR_ERROR_INSTANCE_LOST;
     }
@@ -323,7 +326,12 @@ xrStringToPath(XrInstance instance, const char *pathString, XrPath *out_path)
 
     return XR_SUCCESS;*/
 
-    return mirageStringToPath(pathString, out_path);
+    XrResult result = mirageStringToPath(pathString, out_path);
+    if(result != XR_SUCCESS) return result;
+
+    TryRegisterControllerPath(*out_path, pathString);
+
+    return result;
 }
 
 XRAPI_ATTR XrResult XRAPI_CALL //PASS

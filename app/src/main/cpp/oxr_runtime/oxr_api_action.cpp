@@ -58,6 +58,7 @@ xrGetCurrentInteractionProfile(XrSession session,
 //! OpenXR API function @ep{xrGetActionStateBoolean}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrGetActionStateBoolean(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateBoolean *data){
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOCO", "xrGetActionStateBoolean : %p %p", getInfo->action, getInfo->subactionPath);
     PASS_MIRAGE(GetActionStateBoolean, session, getInfo, data);
 }
 
@@ -76,7 +77,15 @@ xrGetActionStateVector2f(XrSession session, const XrActionStateGetInfo *getInfo,
 //! OpenXR API function @ep{xrGetActionStatePose}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrGetActionStatePose(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStatePose *data){
-    PASS_MIRAGE(GetActionStatePose, session, getInfo, data);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOCO", "xrGetActionStatePose : %p %p", getInfo->action, getInfo->subactionPath); //subaction = main, action = interaction
+    //PASS_MIRAGE(GetActionStatePose, session, getInfo, data);
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called!", "GetActionStatePose");
+    XrResult result = mirageGetActionStatePose(session, getInfo, data);
+
+    data->isActive = XR_TRUE; // TO MAKE CONTROLLER ACTIVE, TODO REFACTOR,
+
+    return result;
 }
 
 //! OpenXR API function @ep{xrSyncActions}

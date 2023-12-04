@@ -13,6 +13,9 @@
 #include <inttypes.h>
 
 
+#include "mirage_app/mirage_utils.h"
+#include "android_globals.h"
+
 #include "oxr_objects.h"
 
 #include "oxr_api_funcs.h"
@@ -72,6 +75,8 @@ xrBeginFrame(XrSession session, const XrFrameBeginInfo *frameBeginInfo) //PASS
 {
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrBeginFrame called!");
 
+    //FORCE HIDE NAVBAR
+    hideNavigationBar((JavaVM*)android_globals_get_vm(), (jobject)android_globals_get_context());
 
     return mirageBeginFrame(session, frameBeginInfo);
 }

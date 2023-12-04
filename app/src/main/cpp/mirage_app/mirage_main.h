@@ -122,3 +122,18 @@ XrResult mirageEnumerateDisplayRefreshRatesFB(XrSession session, uint32_t displa
 XrResult mirageGetDisplayRefreshRateFB(XrSession session, float *displayRefreshRate);
 
 XrResult mirageRequestDisplayRefreshRateFB(XrSession session, float displayRefreshRate);
+
+
+XrResult mirageEnumerateSwapchainFormats(XrSession session, uint32_t formatCapacityInput, uint32_t *formatCountOutput, int64_t *formats);
+
+XrResult mirageCreateSwapchain(XrSession session, const XrSwapchainCreateInfo *createInfo, XrSwapchain *swapchain);
+
+XrResult mirageDestroySwapchain(XrSwapchain swapchain);
+
+XrResult mirageEnumerateSwapchainImages(XrSwapchain swapchain, uint32_t imageCapacityInput, uint32_t *imageCountOutput, XrSwapchainImageBaseHeader *images);
+
+XrResult mirageAcquireSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageAcquireInfo *acquireInfo, uint32_t *index);
+
+XrResult mirageWaitSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageWaitInfo *waitInfo);
+
+XrResult mirageReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo *releaseInfo);

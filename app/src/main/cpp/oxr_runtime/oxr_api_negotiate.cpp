@@ -200,6 +200,14 @@ handle_non_null(struct oxr_instance *inst, const char *name, PFN_xrVoidFunction 
     ENTRY(xrReleaseSwapchainImage);
 
 
+    ENTRY(xrSetDebugUtilsObjectNameEXT);
+    ENTRY(xrCreateDebugUtilsMessengerEXT);
+    ENTRY(xrDestroyDebugUtilsMessengerEXT);
+    ENTRY(xrSubmitDebugUtilsMessageEXT);
+    ENTRY(xrSessionBeginDebugUtilsLabelRegionEXT);
+    ENTRY(xrSessionEndDebugUtilsLabelRegionEXT);
+    ENTRY(xrSessionInsertDebugUtilsLabelEXT);
+
 
 /*
 #ifdef OXR_HAVE_KHR_visibility_mask

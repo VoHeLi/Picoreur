@@ -406,3 +406,39 @@ XrResult mirageWaitSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageW
 XrResult mirageReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo *releaseInfo){
     MIRAGE_CALL(xrReleaseSwapchainImage, swapchain, releaseInfo);
 }
+
+
+//DEBUG
+
+XrResult mirageSetDebugUtilsObjectNameEXT(const XrDebugUtilsObjectNameInfoEXT *nameInfo){
+    MIRAGE_CALL(xrSetDebugUtilsObjectNameEXT, mirageInstance, nameInfo);
+}
+
+XrResult mirageCreateDebugUtilsMessengerEXT(
+        const XrDebugUtilsMessengerCreateInfoEXT *createInfo,
+        XrDebugUtilsMessengerEXT *messenger){
+    MIRAGE_CALL(xrCreateDebugUtilsMessengerEXT, mirageInstance, createInfo, messenger);
+}
+
+XrResult mirageDestroyDebugUtilsMessengerEXT(XrDebugUtilsMessengerEXT messenger){
+    MIRAGE_CALL(xrDestroyDebugUtilsMessengerEXT, messenger);
+}
+
+XrResult mirageSubmitDebugUtilsMessageEXT(
+        XrDebugUtilsMessageSeverityFlagsEXT messageSeverity,
+        XrDebugUtilsMessageTypeFlagsEXT messageTypes,
+        const XrDebugUtilsMessengerCallbackDataEXT *callbackData){
+    MIRAGE_CALL(xrSubmitDebugUtilsMessageEXT, mirageInstance, messageSeverity, messageTypes, callbackData);
+}
+
+XrResult mirageSessionBeginDebugUtilsLabelRegionEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo){
+    MIRAGE_CALL(xrSessionBeginDebugUtilsLabelRegionEXT, session, labelInfo);
+}
+
+XrResult mirageSessionEndDebugUtilsLabelRegionEXT(XrSession session){
+    MIRAGE_CALL(xrSessionEndDebugUtilsLabelRegionEXT, session);
+}
+
+XrResult mirageSessionInsertDebugUtilsLabelEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo){
+    MIRAGE_CALL(xrSessionInsertDebugUtilsLabelEXT, session, labelInfo);
+}

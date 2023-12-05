@@ -137,3 +137,25 @@ XrResult mirageAcquireSwapchainImage(XrSwapchain swapchain, const XrSwapchainIma
 XrResult mirageWaitSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageWaitInfo *waitInfo);
 
 XrResult mirageReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo *releaseInfo);
+
+
+//DEBUG EXT
+
+
+XrResult mirageSetDebugUtilsObjectNameEXT(const XrDebugUtilsObjectNameInfoEXT *nameInfo);
+
+XrResult mirageCreateDebugUtilsMessengerEXT(
+                               const XrDebugUtilsMessengerCreateInfoEXT *createInfo,
+                               XrDebugUtilsMessengerEXT *messenger);
+XrResult mirageDestroyDebugUtilsMessengerEXT(XrDebugUtilsMessengerEXT messenger);
+
+XrResult mirageSubmitDebugUtilsMessageEXT(
+                             XrDebugUtilsMessageSeverityFlagsEXT messageSeverity,
+                             XrDebugUtilsMessageTypeFlagsEXT messageTypes,
+                             const XrDebugUtilsMessengerCallbackDataEXT *callbackData);
+
+XrResult mirageSessionBeginDebugUtilsLabelRegionEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo);
+
+XrResult mirageSessionEndDebugUtilsLabelRegionEXT(XrSession session);
+
+XrResult mirageSessionInsertDebugUtilsLabelEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo);

@@ -41,7 +41,7 @@ xrSubmitDebugUtilsMessageEXT(XrInstance instance,
 
 XRAPI_ATTR XrResult XRAPI_CALL
 xrSessionBeginDebugUtilsLabelRegionEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo){
-    PASS_MIRAGE(SessionBeginDebugUtilsLabelRegionEXT, labelInfo);
+    PASS_MIRAGE(SessionBeginDebugUtilsLabelRegionEXT, session, labelInfo);
 }
 
 

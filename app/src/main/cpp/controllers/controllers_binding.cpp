@@ -42,45 +42,12 @@ void TryRegisterControllerSpace(XrSpace space, XrPath path){
     }
 }
 
-void GetControllerSpacePose(XrSpace space, XrPosef* pose){
+void GetControllerSpacePose(XrSpace space, XrSpaceLocation *location){
     __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "GetControllerSpacePose : %p", space);
-    //if(space == handSpaces[LEFT_HAND]){
-        auto now = std::chrono::system_clock::now();
-        auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+    float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 
-        // Convertir les millisecondes en secondes
-        float seconds = milliseconds / 1000.0;
-
-        // Fréquence de la sinusoïde (par exemple, 1 cycle par seconde)
-        float frequency = 0.5;
-
-        // Amplitude de la sinusoïde (ajustez selon vos besoins)
-        float amplitude = 2.0;
-
-        // Calculer la valeur sinusoidale
-        float sinusoidalValue = amplitude * sin(2 * M_PI * frequency * seconds);
-
-        pose->position.x = sinusoidalValue;
-    //}
-    /*else if(space == handSpaces[RIGHT_HAND]){
-        auto now = std::chrono::system_clock::now();
-        auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
-
-        // Convertir les millisecondes en secondes
-        float seconds = milliseconds / 1000.0;
-
-        // Fréquence de la sinusoïde (par exemple, 1 cycle par seconde)
-        float frequency = 2;
-
-        // Amplitude de la sinusoïde (ajustez selon vos besoins)
-        float amplitude = 0.3;
-
-        // Calculer la valeur sinusoidale
-        float sinusoidalValue = amplitude * sin(2 * M_PI * frequency * seconds);
-
-        pose->position.y = sinusoidalValue;
-    }*/
-
+    location->locationFlags = XR_SPACE_LOCATION_POSITION_TRACKED_BIT | XR_SPACE_LOCATION_POSITION_VALID_BIT | XR_SPACE_LOCATION_ORIENTATION_VALID_BIT | XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT;
+    location->pose.position.x = r;
 }
 
 void TryRegisterActionSet(XrActionSet actionSet, const char* actionSetName){

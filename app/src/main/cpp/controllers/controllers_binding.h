@@ -102,7 +102,7 @@ void TryRegisterActionSet(XrActionSet actionSet, const char* actionSetName);
 
 void TryRegisterAction(XrAction action, const char* actionName);
 
-void GetControllerSpacePose(XrSpace space, XrPosef* pose);
+void GetControllerSpacePose(XrSpace space, XrSpaceLocation *location);
 
 XrResult GetControllerDefaultBinding(const XrInteractionProfileSuggestedBinding *suggestedBindings);
 

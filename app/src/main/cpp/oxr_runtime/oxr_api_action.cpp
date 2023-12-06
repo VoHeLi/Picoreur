@@ -151,6 +151,7 @@ xrGetActionStatePose(XrSession session, const XrActionStateGetInfo *getInfo, XrA
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called!", "GetActionStatePose");
     XrResult result = mirageGetActionStatePose(session, getInfo, data);
 
+
     data->isActive = XR_TRUE; // TO MAKE CONTROLLER ACTIVE, TODO REFACTOR,
 
     return result;

@@ -10,18 +10,22 @@
 
 void TryRegisterControllerPath(XrPath path, const char* pathStr){
     __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "TryRegisterControllerPath : %p, %s ", path, pathStr);
-    if(strcmp(pathStr, handSpacesPathNames[LEFT_HAND])){
+    if(strcmp(pathStr, handSpacesPathNames[LEFT_HAND]) == 0){
+        __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Registering left hand");
         handPaths[LEFT_HAND] = path;
     }
-    else if(strcmp(pathStr, handSpacesPathNames[RIGHT_HAND])){
+    else if(strcmp(pathStr, handSpacesPathNames[RIGHT_HAND]) == 0){
+        __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Registering right hand");
         handPaths[RIGHT_HAND] = path;
     }
-    else if(strcmp(pathStr, "/interaction_profiles/bytedance/pico4_controller")){
+    else if(strcmp(pathStr, "/interaction_profiles/bytedance/pico4_controller") == 0){
+        __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Registering interaction_profile : %p, %s ", path, pathStr);
         interactionProfilePath = path;
     }
     else{
         for(int i = 0; i < 33; i++){
-            if(strcmp(pathStr, controllerPathNames[i])){
+            if(strcmp(pathStr, controllerPathNames[i]) == 0){
+                __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Registering controller path : %d", i);
                 controllerPaths[i] = path;
             }
         }
@@ -80,14 +84,14 @@ void GetControllerSpacePose(XrSpace space, XrPosef* pose){
 }
 
 void TryRegisterActionSet(XrActionSet actionSet, const char* actionSetName){
-    if(strcmp(actionSetName, controllersActionSetName)){
+    if(strcmp(actionSetName, controllersActionSetName) == 0){
         controllersActionSet = actionSet;
     }
 }
 
 void TryRegisterAction(XrAction action, const char* actionName){
     for(int i = 0; i < 17; i++){
-        if(strcmp(actionName, controllersActionsNames[i])){
+        if(strcmp(actionName, controllersActionsNames[i]) == 0){
             controllersActions[i] = action;
         }
     }
@@ -99,4 +103,13 @@ XrResult GetControllerDefaultBinding(const XrInteractionProfileSuggestedBinding 
     }
 
     return XR_SUCCESS;
+}
+
+XrResult GetCurrentInteractionProfileBinding(XrInteractionProfileState *interactionProfile){
+    if(interactionProfilePath != NULL){
+        interactionProfile->interactionProfile = interactionProfilePath;
+        return XR_SUCCESS;
+    }
+
+    return XR_ERROR_PATH_UNSUPPORTED;
 }

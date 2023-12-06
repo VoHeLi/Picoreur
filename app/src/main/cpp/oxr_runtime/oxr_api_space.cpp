@@ -62,6 +62,7 @@ xrLocateSpace(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation *lo
     //TryRegisterControllerSpace(*space, createInfo->subactionPath);
     GetControllerSpacePose(space, &location->pose);
 
+
     return result;
 
 }

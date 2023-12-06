@@ -22,7 +22,10 @@
 #define XR_PICO_CONFIGURATION_SPEC_VERSION 1
 #define XR_PICO_CONFIGURATION_EXTENSION_NAME "XR_PICO_configuration"
 
+
 //TODO : find the good VENDOR_ID
+
+
 
 
 // beginning of GENERATED defines - do not modify - used by scripts

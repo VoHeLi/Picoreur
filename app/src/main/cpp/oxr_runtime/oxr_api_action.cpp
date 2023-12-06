@@ -8,10 +8,12 @@
 #include "mirage_app/mirage_main.h"
 #include "controllers/controllers_binding.h"
 
+#include <random>
+
 #define PASS_MIRAGE(function, ...) __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called!", #function); \
 XrResult res = mirage##function(__VA_ARGS__); \
 __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called with result : %p", #function, res);\
-return res;
+
 
 //! OpenXR API function @ep{xrCreateActionSet}
 XRAPI_ATTR XrResult XRAPI_CALL
@@ -35,6 +37,8 @@ xrCreateActionSet(XrInstance instance, const XrActionSetCreateInfo *createInfo, 
 XRAPI_ATTR XrResult XRAPI_CALL
 xrDestroyActionSet(XrActionSet actionSet){
     PASS_MIRAGE(DestroyActionSet, actionSet);
+
+    return res;
 }
 
 //! OpenXR API function @ep{xrCreateAction}
@@ -58,6 +62,8 @@ xrCreateAction(XrActionSet actionSet, const XrActionCreateInfo *createInfo, XrAc
 XRAPI_ATTR XrResult XRAPI_CALL
 xrDestroyAction(XrAction action){
     PASS_MIRAGE(DestroyAction, action);
+
+    return res;
 }
 
 //! OpenXR API function @ep{xrSuggestInteractionProfileBindings}
@@ -75,6 +81,8 @@ xrSuggestInteractionProfileBindings(XrInstance instance,
 XRAPI_ATTR XrResult XRAPI_CALL
 xrAttachSessionActionSets(XrSession session, const XrSessionActionSetsAttachInfo *bindInfo){
     PASS_MIRAGE(AttachSessionActionSets, session, bindInfo);
+
+    return res;
 }
 
 //! OpenXR API function @ep{xrGetCurrentInteractionProfile}
@@ -82,26 +90,56 @@ XRAPI_ATTR XrResult XRAPI_CALL
 xrGetCurrentInteractionProfile(XrSession session,
                                XrPath topLevelUserPath,
                                XrInteractionProfileState *interactionProfile){
-    PASS_MIRAGE(GetCurrentInteractionProfile, session, topLevelUserPath, interactionProfile);
+
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called!", "GetCurrentInteractionProfile");
+    XrResult res = mirageGetCurrentInteractionProfile(session, topLevelUserPath, interactionProfile);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called with result : %p",
+                        "GetCurrentInteractionProfile", res);
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s called!", "GetCurrentInteractionProfile bindings");
+    res = GetCurrentInteractionProfileBinding(interactionProfile);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xr%s bindings called with result : %p",
+                        "GetCurrentInteractionProfile", res);
+
+    return res;
 }
+auto gen = std::bind(std::uniform_int_distribution<>(0,1),std::default_random_engine());
+bool last = XR_FALSE;
 
 //! OpenXR API function @ep{xrGetActionStateBoolean}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrGetActionStateBoolean(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateBoolean *data){
     __android_log_print(ANDROID_LOG_DEBUG, "PICOCO", "xrGetActionStateBoolean : %p %p", getInfo->action, getInfo->subactionPath);
     PASS_MIRAGE(GetActionStateBoolean, session, getInfo, data);
+
+
+
+
+    data->currentState = XR_TRUE;
+    data->isActive = XR_TRUE;
+
+    return res;
 }
 
 //! OpenXR API function @ep{xrGetActionStateFloat}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrGetActionStateFloat(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateFloat *data){
     PASS_MIRAGE(GetActionStateFloat, session, getInfo, data);
+
+    data->isActive = true;
+
+    return res;
 }
 
 //! OpenXR API function @ep{xrGetActionStateVector2f}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrGetActionStateVector2f(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateVector2f *data){
     PASS_MIRAGE(GetActionStateVector2f, session, getInfo, data);
+
+    data->isActive = true;
+
+    return res;
 }
 
 //! OpenXR API function @ep{xrGetActionStatePose}
@@ -122,6 +160,8 @@ xrGetActionStatePose(XrSession session, const XrActionStateGetInfo *getInfo, XrA
 XRAPI_ATTR XrResult XRAPI_CALL
 xrSyncActions(XrSession session, const XrActionsSyncInfo *syncInfo){
     PASS_MIRAGE(SyncActions, session, syncInfo);
+
+    return res;
 }
 
 //! OpenXR API function @ep{xrEnumerateBoundSourcesForAction}
@@ -132,6 +172,7 @@ xrEnumerateBoundSourcesForAction(XrSession session,
                                  uint32_t *sourceCountOutput,
                                  XrPath *sources){
     PASS_MIRAGE(EnumerateBoundSourcesForAction, session, enumerateInfo, sourceCapacityInput, sourceCountOutput, sources);
+    return res;
 }
 
 //! OpenXR API function @ep{xrApplyHapticFeedback}
@@ -140,12 +181,14 @@ xrApplyHapticFeedback(XrSession session,
                       const XrHapticActionInfo *hapticActionInfo,
                       const XrHapticBaseHeader *hapticEvent){
     PASS_MIRAGE(ApplyHapticFeedback, session, hapticActionInfo, hapticEvent);
+    return res;
 }
 
 //! OpenXR API function @ep{xrStopHapticFeedback}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrStopHapticFeedback(XrSession session, const XrHapticActionInfo *hapticActionInfo){
     PASS_MIRAGE(StopHapticFeedback, session, hapticActionInfo);
+    return res;
 }
 
 //! OpenXR API function @ep{xrGetInputSourceLocalizedName}
@@ -156,6 +199,7 @@ xrGetInputSourceLocalizedName(XrSession session,
                               uint32_t *bufferCountOutput,
                               char *buffer){
     PASS_MIRAGE(GetInputSourceLocalizedName, session, getInfo, bufferCapacityInput, bufferCountOutput, buffer);
+    return res;
 }
 
 //! OpenXR API function @ep{xrCreateHandTrackerEXT}
@@ -164,12 +208,14 @@ xrCreateHandTrackerEXT(XrSession session,
                        const XrHandTrackerCreateInfoEXT *createInfo,
                        XrHandTrackerEXT *handTracker){
     PASS_MIRAGE(CreateHandTrackerEXT, session, createInfo, handTracker);
+    return res;
 }
 
 //! OpenXR API function @ep{xrDestroyHandTrackerEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrDestroyHandTrackerEXT(XrHandTrackerEXT handTracker){
     PASS_MIRAGE(DestroyHandTrackerEXT, handTracker);
+    return res;
 }
 
 //! OpenXR API function @ep{xrLocateHandJointsEXT}
@@ -178,12 +224,14 @@ xrLocateHandJointsEXT(XrHandTrackerEXT handTracker,
                       const XrHandJointsLocateInfoEXT *locateInfo,
                       XrHandJointLocationsEXT *locations){
     PASS_MIRAGE(LocateHandJointsEXT, handTracker, locateInfo, locations);
+    return res;
 }
 
 //! OpenXR API function @ep{xrApplyForceFeedbackCurlMNDX}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrApplyForceFeedbackCurlMNDX(XrHandTrackerEXT handTracker, const XrForceFeedbackCurlApplyLocationsMNDX *locations){
     PASS_MIRAGE(ApplyForceFeedbackCurlMNDX, handTracker, locations);
+    return res;
 }
 
 //! OpenXR API function @ep{xrEnumerateDisplayRefreshRatesFB}
@@ -193,16 +241,19 @@ xrEnumerateDisplayRefreshRatesFB(XrSession session,
                                  uint32_t *displayRefreshRateCountOutput,
                                  float *displayRefreshRates){
     PASS_MIRAGE(EnumerateDisplayRefreshRatesFB, session, displayRefreshRateCapacityInput, displayRefreshRateCountOutput, displayRefreshRates);
+    return res;
 }
 
 //! OpenXR API function @ep{xrGetDisplayRefreshRateFB}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrGetDisplayRefreshRateFB(XrSession session, float *displayRefreshRate){
     PASS_MIRAGE(GetDisplayRefreshRateFB, session, displayRefreshRate);
+    return res;
 }
 
 //! OpenXR API function @ep{xrRequestDisplayRefreshRateFB}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrRequestDisplayRefreshRateFB(XrSession session, float displayRefreshRate) {
     PASS_MIRAGE(RequestDisplayRefreshRateFB, session, displayRefreshRate);
+    return res;
 }

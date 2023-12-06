@@ -49,8 +49,7 @@ xrInitializeLoaderKHR(const XrLoaderInitInfoBaseHeaderKHR *loaderInitInfo){
     return XR_SUCCESS;
 
 }
-
-
+#define XR_BD_controller_interaction_SPEC_VERSION 1
 #define MAKE_EXTENSION_PROPERTIES(mixed_case, all_caps)                                                                \
 	{XR_TYPE_EXTENSION_PROPERTIES, NULL, XR_##all_caps##_EXTENSION_NAME, XR_##mixed_case##_SPEC_VERSION},
 

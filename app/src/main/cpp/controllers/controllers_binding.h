@@ -86,6 +86,7 @@ static const const char* controllersActionSetName = "pico4touchcontroller";
 
 
 //TODO DEFINE ACTIONS
+#define XR_ACTION_DEVICE_POSE 14
 static XrAction controllersActions[17];
 static const const char* controllersActionsNames[17] = {
         "grip", "grippressed", "primarybutton", "primarytouched",
@@ -94,15 +95,16 @@ static const const char* controllersActionsNames[17] = {
         "thumbstickclicked", "thumbsticktouched", "devicepose", "pointer", "haptic"
 };
 
+
 void TryRegisterControllerPath(XrPath path, const char* pathStr);
 
-void TryRegisterControllerSpace(XrSpace space, XrPath path);
+void TryRegisterControllerSpace(XrSpace space, XrAction action, XrPath path);
 
 void TryRegisterActionSet(XrActionSet actionSet, const char* actionSetName);
 
 void TryRegisterAction(XrAction action, const char* actionName);
 
-void GetControllerSpacePose(XrSpace space, XrSpaceLocation *location);
+void GetControllerSpacePose(XrTime time, XrSpace space, XrSpaceLocation *location);
 
 XrResult GetControllerDefaultBinding(const XrInteractionProfileSuggestedBinding *suggestedBindings);
 

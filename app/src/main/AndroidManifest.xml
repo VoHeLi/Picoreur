@@ -3,6 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="org.khronos.openxr.permission.OPENXR"/>
+    <queries>
+        <intent>
+            <action android:name="org.khronos.openxr.OpenXRRuntimeService"/>
+        </intent>
+        <package android:name="com.ultraleap.tracking.service"/>
+        <package android:name="com.ultraleap.openxr.api_layer"/>
+        <provider android:authorities="org.khronos.openxr.runtime_broker;org.khronos.openxr.system_runtime_broker"/>
+    </queries>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="org.khronos.openxr.permission.OPENXR_SYSTEM"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"

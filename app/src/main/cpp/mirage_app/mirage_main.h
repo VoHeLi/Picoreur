@@ -4,9 +4,19 @@
 #include <openxr/openxr_platform.h>
 #include "mirage_loader.h"
 
+#define MIRAGE_CALL(function, ...) PFN_##function l_##function; \
+    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, #function, (PFN_xrVoidFunction *)&l_##function))){ \
+        return l_##function(__VA_ARGS__); \
+    } \
+    else{ \
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : %s not loaded from Lynx libopenxr_loader.so", #function); \
+        return XR_ERROR_FUNCTION_UNSUPPORTED; \
+    } \
 
 static std::shared_ptr<IPlatformPlugin> miragePlatformPlugin;
 static XrInstance mirageInstance;
+static XrSession mirageSession;
+
 
 XrResult initializeMirageAppInstance(void* vm, void* clazz);
 
@@ -159,3 +169,13 @@ XrResult mirageSessionBeginDebugUtilsLabelRegionEXT(XrSession session, const XrD
 XrResult mirageSessionEndDebugUtilsLabelRegionEXT(XrSession session);
 
 XrResult mirageSessionInsertDebugUtilsLabelEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo);
+
+
+XrResult mirageCreateHandTrackerEXT(XrSession session, const XrHandTrackerCreateInfoEXT *createInfo,
+                                    XrHandTrackerEXT *handTracker);
+
+XrResult mirageDestroyHandTrackerEXT(XrHandTrackerEXT handTracker);
+
+XrResult mirageLocateHandJointsEXT(XrHandTrackerEXT handTracker,
+                                   const XrHandJointsLocateInfoEXT *locateInfo,
+                                   XrHandJointLocationsEXT *locations);

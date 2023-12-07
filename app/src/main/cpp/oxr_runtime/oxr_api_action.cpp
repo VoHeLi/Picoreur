@@ -203,20 +203,21 @@ xrGetInputSourceLocalizedName(XrSession session,
     return res;
 }
 
+//TODO SUPPORT PICO HAND-TRACKING
 //! OpenXR API function @ep{xrCreateHandTrackerEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrCreateHandTrackerEXT(XrSession session,
                        const XrHandTrackerCreateInfoEXT *createInfo,
                        XrHandTrackerEXT *handTracker){
-    PASS_MIRAGE(CreateHandTrackerEXT, session, createInfo, handTracker);
-    return res;
+    //PASS_MIRAGE(CreateHandTrackerEXT, session, createInfo, handTracker);
+    return XR_ERROR_FUNCTION_UNSUPPORTED;
 }
 
 //! OpenXR API function @ep{xrDestroyHandTrackerEXT}
 XRAPI_ATTR XrResult XRAPI_CALL
 xrDestroyHandTrackerEXT(XrHandTrackerEXT handTracker){
-    PASS_MIRAGE(DestroyHandTrackerEXT, handTracker);
-    return res;
+    //PASS_MIRAGE(DestroyHandTrackerEXT, handTracker);
+    return XR_ERROR_FUNCTION_UNSUPPORTED;
 }
 
 //! OpenXR API function @ep{xrLocateHandJointsEXT}
@@ -224,8 +225,8 @@ XRAPI_ATTR XrResult XRAPI_CALL
 xrLocateHandJointsEXT(XrHandTrackerEXT handTracker,
                       const XrHandJointsLocateInfoEXT *locateInfo,
                       XrHandJointLocationsEXT *locations){
-    PASS_MIRAGE(LocateHandJointsEXT, handTracker, locateInfo, locations);
-    return res;
+    //PASS_MIRAGE(LocateHandJointsEXT, handTracker, locateInfo, locations);
+    return XR_ERROR_FUNCTION_UNSUPPORTED;
 }
 
 //! OpenXR API function @ep{xrApplyForceFeedbackCurlMNDX}

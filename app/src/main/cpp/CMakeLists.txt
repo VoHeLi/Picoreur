@@ -30,7 +30,7 @@ include_directories(. oxr_runtime)
 add_library(${CMAKE_PROJECT_NAME} SHARED runtime.cpp oxr_runtime/oxr_api_negotiate.cpp oxr_runtime/oxr_api_instance.cpp oxr_runtime/android_globals.cpp oxr_runtime/oxr_api_verify.cpp
         mirage_app/mirage_main.cpp mirage_app/mirage_loader.cpp mirage_app/platformplugin.cpp oxr_runtime/oxr_path.cpp oxr_runtime/oxr_api_system.cpp oxr_runtime/oxr_api_session.cpp
         oxr_runtime/oxr_api_space.cpp oxr_runtime/oxr_api_action.cpp oxr_runtime/oxr_api_swapchain.cpp mirage_app/mirage_utils.cpp
-        controllers/controllers_binding.cpp oxr_runtime/oxr_api_debug.cpp)
+        controllers/controllers_binding.cpp oxr_runtime/oxr_api_debug.cpp controllers/handtracking_inputs.cpp)
 
 
 # Specifies libraries CMake should link to your target library. You

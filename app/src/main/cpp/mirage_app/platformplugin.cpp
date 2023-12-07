@@ -17,7 +17,7 @@ struct AndroidPlatformPlugin : public IPlatformPlugin {
         instanceCreateInfoAndroid.applicationActivity = appActivity;
     }
 
-    std::vector<std::string> GetInstanceExtensions() const override { return {XR_KHR_ANDROID_CREATE_INSTANCE_EXTENSION_NAME}; }
+    std::vector<std::string> GetInstanceExtensions() const override { return {XR_KHR_ANDROID_CREATE_INSTANCE_EXTENSION_NAME, XR_EXT_HAND_TRACKING_EXTENSION_NAME, XR_EXT_HAND_JOINTS_MOTION_RANGE_EXTENSION_NAME, XR_ULTRALEAP_HAND_TRACKING_FOREARM_EXTENSION_NAME}; }
 
     XrBaseInStructure* GetInstanceCreateExtension() const override { return (XrBaseInStructure*)&instanceCreateInfoAndroid; }
 

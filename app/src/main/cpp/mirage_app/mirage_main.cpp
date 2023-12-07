@@ -1,6 +1,7 @@
 
 #include <algorithm>
 #include "mirage_main.h"
+#include "controllers/handtracking_inputs.h"
 
 #include <android/log.h>
 #include "platformplugin.h"
@@ -22,7 +23,6 @@ void CreateInstanceInternal(const std::shared_ptr<IPlatformPlugin>& platformPlug
                    [](const std::string& ext) { return ext.c_str(); });
 
 
-
     XrInstanceCreateInfo createInfo{XR_TYPE_INSTANCE_CREATE_INFO};
     createInfo.next = platformPlugin->GetInstanceCreateExtension();
     createInfo.enabledExtensionCount = (uint32_t)extensions.size();
@@ -31,29 +31,42 @@ void CreateInstanceInternal(const std::shared_ptr<IPlatformPlugin>& platformPlug
     strcpy(createInfo.applicationInfo.applicationName, "Picoreur Mirage");
     createInfo.applicationInfo.apiVersion = XR_CURRENT_API_VERSION;
 
+    std::vector<const char*> apis = {"XR_APILAYER_ULTRALEAP_hand_tracking"};
+    createInfo.enabledApiLayerCount = (uint32_t)apis.size();
+    createInfo.enabledApiLayerNames = apis.data();
+
     //DEBUG XRINSTANCECREATEINFO :
-    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo type : %d", createInfo.type);
-    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo createFlags : %p", createInfo.createFlags);
-    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo applicationInfo : %p", createInfo.applicationInfo);
-    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo enabledExtensionCount : %d", createInfo.enabledExtensionCount);
-    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo enableApiLayerCount : %d", createInfo.enabledApiLayerCount);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "xrCreateInstance createInfo type : %d", createInfo.type);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "xrCreateInstance createInfo createFlags : %p", createInfo.createFlags);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "xrCreateInstance createInfo applicationInfo : %p", createInfo.applicationInfo);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "xrCreateInstance createInfo enabledExtensionCount : %d", createInfo.enabledExtensionCount);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "xrCreateInstance createInfo enableApiLayerCount : %d", createInfo.enabledApiLayerCount);
 
     for(int i = 0; i < createInfo.enabledExtensionCount; i++){
-        __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateInstance createInfo enabled Extension : %s", createInfo.enabledExtensionNames[i]);
+        __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "xrCreateInstance createInfo enabled Extension : %s", createInfo.enabledExtensionNames[i]);
     }
 
-    __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "Before xrCreateInstance Mirage call");
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Before xrCreateInstance Mirage call");
 
     PFN_xrCreateInstance l_xrCreateInstance;
     if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(nullptr, "xrCreateInstance", (PFN_xrVoidFunction*)&l_xrCreateInstance))){
         l_xrCreateInstance(&createInfo, &mirageInstance);
     }
     else{
-        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : xrCreateInstance not loaded from Lynx libopenxr_loader.so");
+        __android_log_print(ANDROID_LOG_ERROR, "PICOR2", "Mirage : xrCreateInstance not loaded from Lynx libopenxr_loader.so");
     }
 
 
 }
+
+void getMirageInstance(XrInstance* instance){
+    *instance = mirageInstance;
+}
+
+void getMirageSession(XrSession* session){
+    *session = mirageSession;
+}
+
 
 void CreateInstance() {
 
@@ -208,17 +221,28 @@ XrResult mirageGetOpenGLESGraphicsRequirementsKHR(XrSystemId systemId, XrGraphic
     }
 }
 
-#define MIRAGE_CALL(function, ...) PFN_##function l_##function; \
-    if(XR_SUCCEEDED(m_xrGetInstanceProcAddr(mirageInstance, #function, (PFN_xrVoidFunction *)&l_##function))){ \
-        return l_##function(__VA_ARGS__); \
-    } \
-    else{ \
-        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR", "Mirage : %s not loaded from Lynx libopenxr_loader.so", #function); \
-        return XR_ERROR_FUNCTION_UNSUPPORTED; \
-    } \
+
 
 XrResult mirageCreateSession(const XrSessionCreateInfo *createInfo, XrSession *session){
-    MIRAGE_CALL(xrCreateSession, mirageInstance, createInfo, session);
+    PFN_xrCreateSession l_xrCreateSession;
+    if (((m_xrGetInstanceProcAddr(mirageInstance, "xrCreateSession",
+                                  (PFN_xrVoidFunction *) &l_xrCreateSession)) >=
+         0)) {
+        XrResult res = l_xrCreateSession(mirageInstance, createInfo, session);
+
+        if(res == XR_SUCCESS){
+            mirageSession = *session;
+
+            initializeHands(*session);
+        }
+
+        return res;
+    }
+    else {
+        __android_log_print(ANDROID_LOG_ERROR, "PICOREUR",
+                            "Mirage : %s not loaded from Lynx libopenxr_loader.so", "xrCreateSession");
+        return XR_ERROR_FUNCTION_UNSUPPORTED;
+    }
 }
 
 XrResult mirageDestroySession(XrSession session){
@@ -348,19 +372,6 @@ XrResult mirageStopHapticFeedback(XrSession session, const XrHapticActionInfo *h
     MIRAGE_CALL(xrStopHapticFeedback, session, hapticActionInfo);
 }
 
-XrResult mirageCreateHandTrackerEXT(XrSession session, const XrHandTrackerCreateInfoEXT *createInfo, XrHandTrackerEXT *handTracker) {
-    MIRAGE_CALL(xrCreateHandTrackerEXT, session, createInfo, handTracker);
-}
-
-XrResult mirageDestroyHandTrackerEXT(XrHandTrackerEXT handTracker) {
-    MIRAGE_CALL(xrDestroyHandTrackerEXT, handTracker);
-}
-
-XrResult mirageLocateHandJointsEXT(XrHandTrackerEXT handTracker, const XrHandJointsLocateInfoEXT *locateInfo,
-                               XrHandJointLocationsEXT *locations) {
-    MIRAGE_CALL(xrLocateHandJointsEXT, handTracker, locateInfo, locations);
-}
-
 XrResult mirageApplyForceFeedbackCurlMNDX(XrHandTrackerEXT handTracker, const XrForceFeedbackCurlApplyLocationsMNDX *locations) {
     MIRAGE_CALL(xrApplyForceFeedbackCurlMNDX, handTracker, locations);
 }
@@ -441,4 +452,21 @@ XrResult mirageSessionEndDebugUtilsLabelRegionEXT(XrSession session){
 
 XrResult mirageSessionInsertDebugUtilsLabelEXT(XrSession session, const XrDebugUtilsLabelEXT *labelInfo){
     MIRAGE_CALL(xrSessionInsertDebugUtilsLabelEXT, session, labelInfo);
+}
+
+
+
+XrResult mirageCreateHandTrackerEXT(XrSession session, const XrHandTrackerCreateInfoEXT *createInfo,
+                                    XrHandTrackerEXT *handTracker){
+    MIRAGE_CALL(xrCreateHandTrackerEXT, session, createInfo, handTracker);
+}
+
+XrResult mirageDestroyHandTrackerEXT(XrHandTrackerEXT handTracker){
+    MIRAGE_CALL(xrDestroyHandTrackerEXT, handTracker);
+}
+
+XrResult mirageLocateHandJointsEXT(XrHandTrackerEXT handTracker,
+                                   const XrHandJointsLocateInfoEXT *locateInfo,
+                                   XrHandJointLocationsEXT *locations){
+    MIRAGE_CALL(xrLocateHandJointsEXT, handTracker, locateInfo, locations);
 }

@@ -47,7 +47,12 @@ XRAPI_ATTR XrResult XRAPI_CALL // PASS TODO: Set origin
 xrCreateReferenceSpace(XrSession session, const XrReferenceSpaceCreateInfo *createInfo, XrSpace *space){
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrCreateReferenceSpace called!");
 
-    return mirageCreateReferenceSpace(session, createInfo, space);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "xrCreateReferenceSpace of type : %d", XR_REFERENCE_SPACE_TYPE_LOCAL);
+
+
+    XrResult result = mirageCreateReferenceSpace(session, createInfo, space);
+
+    return result;
 }
 
 
@@ -59,7 +64,7 @@ xrLocateSpace(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation *lo
     if(result != XR_SUCCESS) return result;
 
 
-    GetControllerSpacePose(space, location);
+    GetControllerSpacePose(time, space, location);
 
 
     return result;
@@ -84,7 +89,8 @@ xrCreateActionSpace(XrSession session, const XrActionSpaceCreateInfo *createInfo
     XrResult result = mirageCreateActionSpace(session, createInfo, space);
     if(result != XR_SUCCESS) return result;
 
-    TryRegisterControllerSpace(*space, createInfo->subactionPath);
+
+    TryRegisterControllerSpace(*space, createInfo->action, createInfo->subactionPath);
 
     return result;
 }

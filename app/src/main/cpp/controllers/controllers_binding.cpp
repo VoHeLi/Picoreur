@@ -50,6 +50,8 @@ void GetControllerSpacePose(XrTime time, XrSpace space, XrSpaceLocation *locatio
 
     //DEBUG
     updateHandJoints(time, space, XR_HAND_LEFT_EXT);
+
+    XrPosef* palmPos = new XrPosef();
     tryGetPalmPosition(XR_HAND_LEFT_EXT, &location->pose); //FOR NOW
 
     /*//Update Hand Joints here

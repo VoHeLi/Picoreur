@@ -6,8 +6,8 @@
 static XrHandTrackerEXT leftHandTracker;
 static XrHandTrackerEXT rightHandTracker;
 
-static XrHandJointLocationsEXT leftJointLocations;
-static XrHandJointLocationsEXT rightJointLocations;
+static XrHandJointLocationEXT leftJointLocations[XR_HAND_JOINT_COUNT_EXT];
+static XrHandJointLocationEXT rightJointLocations[XR_HAND_JOINT_COUNT_EXT];
 
 void initializeHands(XrSession session);
 

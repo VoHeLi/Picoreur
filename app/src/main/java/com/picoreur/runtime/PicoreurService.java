@@ -8,11 +8,14 @@ import android.app.Service;
 import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -97,4 +100,6 @@ public class PicoreurService extends Service {
         Log.d("PICOREUR", "Binding...");
         return null;
     }
+
+
 }

@@ -2,7 +2,11 @@ package com.picoreur.runtime;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends Activity {
 
@@ -32,4 +36,11 @@ public class MainActivity extends Activity {
 
         finish();
     }
+
+
+    /*public void test(){
+        if (ContextCompat.checkSelfPermission(this, "android.permission.QUERY_ALL_PACKAGES") != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{"android.permission.QUERY_ALL_PACKAGES"}, PackageManager.PERMISSION_GRANTED);
+        }
+    }*/
 }

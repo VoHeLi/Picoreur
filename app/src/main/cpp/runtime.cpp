@@ -7,6 +7,7 @@
 
 #include <android/log.h>
 
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_picoreur_runtime_PicoreurService_loadRuntimeJNI(JNIEnv *env, jobject thiz) {

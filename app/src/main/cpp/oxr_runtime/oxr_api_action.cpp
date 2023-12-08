@@ -53,7 +53,7 @@ xrCreateAction(XrActionSet actionSet, const XrActionCreateInfo *createInfo, XrAc
         return result;
     }
 
-    TryRegisterAction(*action, createInfo->actionName);
+    TryRegisterAction(*action, actionSet, createInfo->actionName);
 
     return result;
 }
@@ -114,9 +114,7 @@ xrGetActionStateBoolean(XrSession session, const XrActionStateGetInfo *getInfo, 
     PASS_MIRAGE(GetActionStateBoolean, session, getInfo, data);
 
 
-
-
-    data->currentState = XR_TRUE;
+    GetControllerActionStateBoolean(getInfo, data);
     data->isActive = XR_TRUE;
 
     return res;

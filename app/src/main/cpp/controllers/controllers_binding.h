@@ -36,10 +36,12 @@
 #define USER_HAND_LEFT_OUTPUT_HAPTIC 31
 #define USER_HAND_RIGHT_OUTPUT_HAPTIC 32
 
+#include <vector>
+
 #define LEFT_HAND 0
 #define RIGHT_HAND 1
 
-static XrSpace handSpaces[2];
+static std::vector<XrSpace> handSpaces[2];
 static XrPath handPaths[2];
 static const const char* handSpacesPathNames[2] = {"/user/hand/left", "/user/hand/right"};
 
@@ -82,11 +84,26 @@ static const const char* controllerPathNames[33] = {
 };
 
 static XrActionSet controllersActionSet;
-static const const char* controllersActionSetName = "pico4touchcontroller";
+static const const char* controllersActionSetName = "pico4touchcontroller"; // other  piconeo3controller
 
 
-//TODO DEFINE ACTIONS
-#define XR_ACTION_DEVICE_POSE 14
+#define GRIP 0
+#define GRIP_PRESSED 1
+#define PRIMARY_BUTTON 2
+#define PRIMARY_TOUCHED 3
+#define SECONDARY_BUTTON 4
+#define SECONDARY_TOUCHED 5
+#define MENU 6
+#define SYSTEM 7
+#define TRIGGER 8
+#define TRIGGER_PRESSED 9
+#define TRIGGER_TOUCHED 10
+#define THUMBSTICK 11
+#define THUMBSTICK_CLICKED 12
+#define THUMBSTICK_TOUCHED 13
+#define DEVICE_POSE 14
+#define POINTER 15
+#define HAPTIC 16
 static XrAction controllersActions[17];
 static const const char* controllersActionsNames[17] = {
         "grip", "grippressed", "primarybutton", "primarytouched",
@@ -102,10 +119,17 @@ void TryRegisterControllerSpace(XrSpace space, XrAction action, XrPath path);
 
 void TryRegisterActionSet(XrActionSet actionSet, const char* actionSetName);
 
-void TryRegisterAction(XrAction action, const char* actionName);
+void TryRegisterAction(XrAction action, XrActionSet actionSet, const char* actionName);
 
 void GetControllerSpacePose(XrTime time, XrSpace space, XrSpace baseSpace, XrSpaceLocation *location);
 
 XrResult GetControllerDefaultBinding(const XrInteractionProfileSuggestedBinding *suggestedBindings);
 
 XrResult GetCurrentInteractionProfileBinding(XrInteractionProfileState *interactionProfile);
+
+//Get actions
+
+void GetControllerActionStateBoolean(const XrActionStateGetInfo *getInfo, XrActionStateBoolean *data);
+
+// Controllers Binding
+void UpdateIfTriggerPressed(XrHandEXT hand, XrActionStateBoolean *data);

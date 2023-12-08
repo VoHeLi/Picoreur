@@ -11,8 +11,8 @@ static XrHandJointLocationEXT rightJointLocations[XR_HAND_JOINT_COUNT_EXT];
 
 void initializeHands(XrSession session);
 
-void destroyHands();
+void destroyHands(); //todo ?
 
 void updateHandJoints(XrTime currentTime, XrSpace baseSpace, XrHandEXT handType);
 
-XrResult tryGetPalmPosition(XrHandEXT handType, XrPosef* pose);
+XrResult tryGetBonePose(XrHandEXT handType, XrPosef* pose, uint32_t bone);

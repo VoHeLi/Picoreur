@@ -77,12 +77,14 @@ void updateHandJoints(XrTime currentTime, XrSpace baseSpace, XrHandEXT handType)
 
 }
 
-XrResult tryGetPalmPosition(XrHandEXT handType, XrPosef* pose){ //TODO Transfer FLAGS
+XrResult tryGetBonePose(XrHandEXT handType, XrPosef* pose, uint32_t bone){ //TODO Transfer FLAGS
     XrHandJointLocationEXT* jointLocationsExt = handType == XR_HAND_LEFT_EXT ? leftJointLocations : rightJointLocations;
 
     if(jointLocationsExt == NULL) return XR_SUCCESS;
 
-    *pose = jointLocationsExt[0].pose;
+    if(bone >= XR_HAND_JOINT_COUNT_EXT) return XR_ERROR_VALIDATION_FAILURE;
+
+    *pose = jointLocationsExt[bone].pose;
 
     return XR_SUCCESS;
 }

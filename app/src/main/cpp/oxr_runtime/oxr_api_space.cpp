@@ -64,7 +64,7 @@ xrLocateSpace(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation *lo
     if(result != XR_SUCCESS) return result;
 
 
-    GetControllerSpacePose(time, space, location);
+    GetControllerSpacePose(time, space, baseSpace, location);
 
 
     return result;

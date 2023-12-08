@@ -35,7 +35,7 @@ void TryRegisterControllerPath(XrPath path, const char* pathStr){
 
 void TryRegisterControllerSpace(XrSpace space, XrAction action, XrPath path){ //TODO GET ONLY INTERESTED POSE (ONLY GRIP AND PICO4)
 
-    if(controllersActionSet == NULL) return; //IGNORE PICO 3 controllers
+    if(controllersActionSet == NULL) return; //IGNORE PICO 3 controllers doesn't work
 
     __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "TryRegisterControllerSpace : %p, %p ", space, path);
     if(path == handPaths[LEFT_HAND] && action == controllersActions[XR_ACTION_DEVICE_POSE]){ //Force grip pos and not pointer
@@ -46,20 +46,21 @@ void TryRegisterControllerSpace(XrSpace space, XrAction action, XrPath path){ //
     }
 }
 
-void GetControllerSpacePose(XrTime time, XrSpace space, XrSpaceLocation *location){
+void GetControllerSpacePose(XrTime time, XrSpace space, XrSpace baseSpace, XrSpaceLocation *location){
 
     //DEBUG
-    updateHandJoints(time, space, XR_HAND_LEFT_EXT);
+    updateHandJoints(time, baseSpace, XR_HAND_LEFT_EXT);
 
-    XrPosef* palmPos = new XrPosef();
     tryGetPalmPosition(XR_HAND_LEFT_EXT, &location->pose); //FOR NOW
 
-    /*//Update Hand Joints here
+    /*__android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "TryGetControllerSpacePose : %p", space);
+
+    //Update Hand Joints here
     if(space == handSpaces[LEFT_HAND]){
         updateHandJoints(time, space, XR_HAND_LEFT_EXT);
         tryGetPalmPosition(XR_HAND_LEFT_EXT, &location->pose); //FOR NOW
     }
-    else if(space == handSpaces[LEFT_HAND]){
+    else if(space == handSpaces[RIGHT_HAND]){
         updateHandJoints(time, space, XR_HAND_RIGHT_EXT);
         tryGetPalmPosition(XR_HAND_RIGHT_EXT, &location->pose); //FOR NOW
     }

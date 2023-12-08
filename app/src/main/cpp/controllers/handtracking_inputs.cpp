@@ -36,7 +36,7 @@ void destroyHands(){
     mirageDestroyHandTrackerEXT(rightHandTracker);
 }
 
-void updateHandJoints(XrTime currentTime, XrSpace currentSpace, XrHandEXT handType){
+void updateHandJoints(XrTime currentTime, XrSpace baseSpace, XrHandEXT handType){
 
     XrHandJointsMotionRangeInfoEXT nextInfo = {
             .type = XR_TYPE_HAND_JOINTS_MOTION_RANGE_INFO_EXT,
@@ -47,7 +47,7 @@ void updateHandJoints(XrTime currentTime, XrSpace currentSpace, XrHandEXT handTy
     XrHandJointsLocateInfoEXT locateInfo = {
             .type = XR_TYPE_HAND_JOINTS_LOCATE_INFO_EXT,
             .next = &nextInfo, //XrHandJointsMotionRangeInfoEXT
-            .baseSpace = currentSpace,
+            .baseSpace = baseSpace,
             .time = currentTime
     };
 
@@ -59,7 +59,7 @@ void updateHandJoints(XrTime currentTime, XrSpace currentSpace, XrHandEXT handTy
             .jointLocations = handType == XR_HAND_LEFT_EXT ? leftJointLocations : rightJointLocations
     };
 
-    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Updating hand tracking, time : %d, space : %p", currentTime, currentSpace);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Updating hand tracking, time : %d, space : %p", currentTime, baseSpace);
 
     XrResult result;
     switch(handType){

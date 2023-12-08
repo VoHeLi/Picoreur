@@ -13,6 +13,6 @@ void initializeHands(XrSession session);
 
 void destroyHands();
 
-void updateHandJoints(XrTime currentTime, XrSpace currentSpace, XrHandEXT handType);
+void updateHandJoints(XrTime currentTime, XrSpace baseSpace, XrHandEXT handType);
 
 XrResult tryGetPalmPosition(XrHandEXT handType, XrPosef* pose);

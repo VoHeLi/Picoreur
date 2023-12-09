@@ -134,9 +134,16 @@ XrResult GetCurrentInteractionProfileBinding(XrInteractionProfileState *interact
 //Get actions
 
 void GetControllerActionStateBoolean(const XrActionStateGetInfo *getInfo, XrActionStateBoolean *data);
+void GetControllerActionStateVector2f(const XrActionStateGetInfo *getInfo, XrActionStateVector2f *data);
 
 // Controllers Binding
 #define GLM_POS(pose) glm::vec3(##pose##.position.x, ##pose##.position.y, ##pose##.position.z)
 #define GLM_QUAT(pose) glm::quat(##pose##.orientation.w, ##pose##.orientation.x, ##pose##.orientation.y, ##pose##.orientation.z)
 
 void UpdateIfTriggerPressed(XrHandEXT hand, XrActionStateBoolean *data);
+
+void UpdateIfPrimaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data);
+
+void UpdateIfSecondaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data);
+
+void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data);

@@ -135,6 +135,8 @@ XRAPI_ATTR XrResult XRAPI_CALL
 xrGetActionStateVector2f(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateVector2f *data){
     PASS_MIRAGE(GetActionStateVector2f, session, getInfo, data);
 
+    GetControllerActionStateVector2f(getInfo, data);
+
     data->isActive = true;
 
     return res;

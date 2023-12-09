@@ -4,7 +4,8 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
-
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/normal.hpp>
 
 #define USER_HAND_LEFT_INPUT_SQUEEZE_VALUE 0
 #define USER_HAND_RIGHT_INPUT_SQUEEZE_VALUE 1
@@ -144,6 +145,15 @@ void UpdateIfTriggerPressed(XrHandEXT hand, XrActionStateBoolean *data);
 
 void UpdateIfPrimaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data);
 
+#define SECONDARY_BUTTON_LOC glm::vec3(0.124675, -0.224141, -0.119549)
+#define SECONDARY_BUTTON_DISTANCE 0.02f
 void UpdateIfSecondaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data);
 
-void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data);
+
+#define THUMBSTICK_MIDDLE glm::vec3(0.029615,-0.056456,-0.024166)
+#define THUMBSTICK_UP glm::vec3(0.019883,-0.063061,-0.028699)
+#define THUMBSTICK_DOWN glm::vec3(0.047657,-0.043240,-0.013707)
+#define THUMBSTICK_LEFT glm::vec3(0.024933, -0.038147, -0.033840) //(0.024933, -0.038147, -0.033840) glm::vec3(-0.043221,-0.055522,-0.028632)
+#define THUMBSTICK_RIGHT glm::vec3(0.011134, -0.069010, -0.023969) // (0.011134, -0.069010, -0.023969) glm::vec3(0.008095,-0.071079,-0.026443)
+
+void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data); //THUMB DISTAL : 0.124675, -0.224141, -0.119549

@@ -293,22 +293,30 @@ bool secondaryRightLastState = false;
 void UpdateIfSecondaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data){
     XrPosef thumbDistalPos;
     XrPosef indexProximalPose;
+    XrPosef palmPose;
+
     tryGetBonePose(hand, &thumbDistalPos, XR_HAND_JOINT_THUMB_DISTAL_EXT);
     tryGetBonePose(hand, &indexProximalPose, XR_HAND_JOINT_INDEX_PROXIMAL_EXT);
+    tryGetBonePose(hand, &palmPose, XR_HAND_JOINT_PALM_EXT);
     //__android_log_print(ANDROID_LOG_DEBUG, "PICOEMU", "Getting poses : ");
 
     glm::vec3 thumbDistalGlobalPosition = glm::vec3(thumbDistalPos.position.x, thumbDistalPos.position.y, thumbDistalPos.position.z);//GLM_POS(thumbDistalPos);
     glm::vec3 indexMetacarpalGlobalPosition = glm::vec3(indexProximalPose.position.x, indexProximalPose.position.y, indexProximalPose.position.z);//GLM_POS(indexProximalPose);
+    glm::vec3 palmGlobalPosition = glm::vec3(palmPose.position.x, palmPose.position.y, palmPose.position.z);
 
-    //glm::quat palmRot = glm::quat(thumbDistalPos.orientation.w, thumbDistalPos.orientation.x, thumbDistalPos.orientation.y, thumbDistalPos.orientation.z);//GLM_QUAT(thumbDistalPos);
+    glm::quat palmRot = glm::quat(palmPose.orientation.w, palmPose.orientation.x, palmPose.orientation.y, palmPose.orientation.z);//GLM_QUAT(thumbDistalPos);
 
-    //glm::vec3 indexLocalPos = inverse(palmRot) * (indexGlobalPosition - palmGlobalPosition);
+    glm::vec3 indexLocalPos = inverse(palmRot) * (thumbDistalGlobalPosition - palmGlobalPosition);
 
     float distSquare = (thumbDistalPos.position.x - indexProximalPose.position.x) * (thumbDistalPos.position.x - indexProximalPose.position.x)
                        + (thumbDistalPos.position.y - indexProximalPose.position.y) * (thumbDistalPos.position.y - indexProximalPose.position.y)
                        + (thumbDistalPos.position.z - indexProximalPose.position.z) * (thumbDistalPos.position.z - indexProximalPose.position.z);
 
     bool isActive = distSquare >= 0.0035f;//0.03f*0.03f; //TODO CHANGE VALUE 0.001270 min, 0.004 max (0.004 a bit too hard, switched to .0035
+
+    float distanceToExpected = glm::distance(indexLocalPos, SECONDARY_BUTTON_LOC);
+
+    //if(distanceToExpected > SECONDARY_BUTTON_DISTANCE) isActive = false;
 
     if(hand == XR_HAND_LEFT_EXT){
         bool changedActive = triggerLeftLastState != isActive;
@@ -330,7 +338,14 @@ void UpdateIfSecondaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data){
 }
 
 
-
+//EACH POSITION
+/*
+ * MIDDLE : (0.029615,-0.056456,-0.024166)
+ * UP : (0.019883,-0.063061,-0.028699)
+ * DOWN : (0.047657,-0.043240,-0.013707)
+ * LEFT : (-0.043221,-0.055522,-0.028632)
+ * RIGHT : (0.008095,-0.071079,-0.026443)
+ */
 void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data){
     XrPosef palmPose;
     XrPosef thumbTipPose;
@@ -348,13 +363,43 @@ void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data){
     __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Hand %d : Positions , first : %.6f,%.6f,%.6f", hand,
                         localPalmPosition.x, localPalmPosition.y, localPalmPosition.z);
 
+    glm::vec3 normale = glm::triangleNormal(THUMBSTICK_LEFT, THUMBSTICK_RIGHT, THUMBSTICK_UP-THUMBSTICK_DOWN);
+    float distanceAuPlan = glm::dot(localPalmPosition - THUMBSTICK_MIDDLE, normale);
 
-    //EACH POSITION
-    /*
-     * MIDDLE : (0.029615,-0.056456,-0.024166)
-     * UP : (0.019883,-0.063061,-0.028699)
-     * DOWN : (0.047657,-0.043240,-0.013707)
-     * LEFT : (-0.043221,-0.055522,-0.028632)
-     * RIGHT : (0.008095,-0.071079,-0.026443)
-     */
+    glm::vec3 pointProjete = localPalmPosition - distanceAuPlan * normale;
+
+
+    // Afficher les résultats
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Distance du point au plan : %.6f", distanceAuPlan);
+    /*__android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Coordonnée par rapport à haut : %.6f", coordHaut);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Coordonnée par rapport à bas : %.6f", coordBas);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Coordonnée par rapport à gauche : %.6f", coordGauche);
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Coordonnée par rapport à droite : %.6f", coordDroite);*/
+
+    //TODO CHECK DISTANCE -0.015
+    if(abs(distanceAuPlan) > 0.015) return;
+
+
+    float upDist = glm::distance(localPalmPosition - THUMBSTICK_MIDDLE, THUMBSTICK_UP - THUMBSTICK_MIDDLE);
+    float downDist = glm::distance(localPalmPosition - THUMBSTICK_MIDDLE, THUMBSTICK_DOWN - THUMBSTICK_MIDDLE);
+    float rightDist = glm::distance(localPalmPosition - THUMBSTICK_MIDDLE, THUMBSTICK_RIGHT - THUMBSTICK_MIDDLE);
+    float leftDist = glm::distance(localPalmPosition - THUMBSTICK_MIDDLE, THUMBSTICK_LEFT - THUMBSTICK_MIDDLE);
+
+    float upDirRatio = upDist / (upDist + downDist);
+    float y = 2.0f*upDirRatio - 1.0f;
+
+    float rightDirRatio = rightDist / (rightDist + leftDist);
+    float x = 2.0f*rightDirRatio - 1.0f;
+
+    if(hand == XR_HAND_LEFT_EXT){
+        x = x;
+    }
+
+    data->changedSinceLastSync = true;
+    data->isActive = true;
+    data->currentState = XrVector2f{
+        .x = -x,
+        .y = -y
+    };
+
 }

@@ -10,6 +10,8 @@
 
 #include <android/log.h>
 
+
+
 void TryRegisterControllerPath(XrPath path, const char* pathStr){
     __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "TryRegisterControllerPath : %p, %s ", path, pathStr);
     if(strcmp(pathStr, handSpacesPathNames[LEFT_HAND]) == 0){
@@ -127,24 +129,50 @@ void GetControllerActionStateBoolean(const XrActionStateGetInfo *getInfo, XrActi
         }
     }
 
-    switch(actionId){
+    /*switch(actionId){
         case TRIGGER_PRESSED:
             UpdateIfTriggerPressed(hand, data);
             break;
-    }
+    }*/
+    UpdateIfTriggerPressed(hand, data);
 
-
-    data->currentState = XR_TRUE;
+    data->changedSinceLastSync = XR_TRUE;
+    data->lastChangeTime = getCurrentTime();
+    data->isActive = XR_TRUE;
 }
 
-//Controllers Binding
 
+
+//Controllers Binding
+bool lastActive = false; //TODO
 void UpdateIfTriggerPressed(XrHandEXT hand, XrActionStateBoolean *data){
     XrPosef palmPose;
     XrPosef indexTipPose;
     tryGetBonePose(hand, &palmPose, XR_HAND_JOINT_PALM_EXT);
-    tryGetBonePose(hand, &indexTipPose, XR_HAND_JOINT_INDEX_TIP_EXT);
+    tryGetBonePose(hand, &indexTipPose, XR_HAND_JOINT_INDEX_DISTAL_EXT);
     //__android_log_print(ANDROID_LOG_DEBUG, "PICOEMU", "Getting poses : ");
 
+    glm::vec3 palmGlobalPosition = glm::vec3(palmPose.position.x, palmPose.position.y, palmPose.position.z);//GLM_POS(palmPose);
+    glm::vec3 indexGlobalPosition = glm::vec3(indexTipPose.position.x, indexTipPose.position.y, indexTipPose.position.z);//GLM_POS(indexTipPose);
 
+    //glm::quat palmRot = glm::quat(palmPose.orientation.w, palmPose.orientation.x, palmPose.orientation.y, palmPose.orientation.z);//GLM_QUAT(palmPose);
+
+    //glm::vec3 indexLocalPos = inverse(palmRot) * (indexGlobalPosition - palmGlobalPosition);
+
+    float distSquare = (palmPose.position.x - indexTipPose.position.x)*(palmPose.position.x - indexTipPose.position.x)
+                     + (palmPose.position.y - indexTipPose.position.y)*(palmPose.position.y - indexTipPose.position.y)
+                     + (palmPose.position.z - indexTipPose.position.z)*(palmPose.position.z - indexTipPose.position.z);
+
+    bool isActive = distSquare <= 0.005f;//0.03f*0.03f; //TODO CHANGE VALUE
+
+    bool changedActive = lastActive != isActive;
+    lastActive = isActive;
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "Hand %d : Distance between palm and index : %.6f, palmGlobalPos : %.6f,%.6f,%.6f , indexTipGlobalPos : %.6f,%.6f,%.6f , isActive %d, isChanged %d ", hand, distSquare,
+                        indexTipPose.position.x, indexTipPose.position.y, indexTipPose.position.z, indexTipPose.position.x, indexTipPose.position.y, indexTipPose.position.z, isActive, changedActive);
+
+
+
+    data->currentState = isActive;
+    data->changedSinceLastSync = XR_TRUE;
 }

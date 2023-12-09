@@ -2,6 +2,10 @@
 
 #include <openxr/openxr_runtime.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+
+
 #define USER_HAND_LEFT_INPUT_SQUEEZE_VALUE 0
 #define USER_HAND_RIGHT_INPUT_SQUEEZE_VALUE 1
 #define USER_HAND_LEFT_INPUT_SQUEEZE_CLICK 2
@@ -132,4 +136,7 @@ XrResult GetCurrentInteractionProfileBinding(XrInteractionProfileState *interact
 void GetControllerActionStateBoolean(const XrActionStateGetInfo *getInfo, XrActionStateBoolean *data);
 
 // Controllers Binding
+#define GLM_POS(pose) glm::vec3(##pose##.position.x, ##pose##.position.y, ##pose##.position.z)
+#define GLM_QUAT(pose) glm::quat(##pose##.orientation.w, ##pose##.orientation.x, ##pose##.orientation.y, ##pose##.orientation.z)
+
 void UpdateIfTriggerPressed(XrHandEXT hand, XrActionStateBoolean *data);

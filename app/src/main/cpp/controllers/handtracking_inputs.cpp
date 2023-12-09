@@ -38,6 +38,8 @@ void destroyHands(){
 
 void updateHandJoints(XrTime currentTime, XrSpace baseSpace, XrHandEXT handType){
 
+    lastTime = currentTime;
+
     XrHandJointsMotionRangeInfoEXT nextInfo = {
             .type = XR_TYPE_HAND_JOINTS_MOTION_RANGE_INFO_EXT,
             .next = NULL,
@@ -87,4 +89,8 @@ XrResult tryGetBonePose(XrHandEXT handType, XrPosef* pose, uint32_t bone){ //TOD
     *pose = jointLocationsExt[bone].pose;
 
     return XR_SUCCESS;
+}
+
+XrTime getCurrentTime(){
+    return lastTime;
 }

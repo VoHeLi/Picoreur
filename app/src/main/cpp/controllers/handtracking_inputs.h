@@ -9,6 +9,8 @@ static XrHandTrackerEXT rightHandTracker;
 static XrHandJointLocationEXT leftJointLocations[XR_HAND_JOINT_COUNT_EXT];
 static XrHandJointLocationEXT rightJointLocations[XR_HAND_JOINT_COUNT_EXT];
 
+static XrTime lastTime;
+
 void initializeHands(XrSession session);
 
 void destroyHands(); //todo ?
@@ -16,3 +18,5 @@ void destroyHands(); //todo ?
 void updateHandJoints(XrTime currentTime, XrSpace baseSpace, XrHandEXT handType);
 
 XrResult tryGetBonePose(XrHandEXT handType, XrPosef* pose, uint32_t bone);
+
+XrTime getCurrentTime();

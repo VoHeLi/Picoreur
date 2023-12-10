@@ -142,6 +142,7 @@ void GetControllerActionStateVector2f(const XrActionStateGetInfo *getInfo, XrAct
 #define GLM_QUAT(pose) glm::quat(##pose##.orientation.w, ##pose##.orientation.x, ##pose##.orientation.y, ##pose##.orientation.z)
 
 void UpdateIfTriggerPressed(XrHandEXT hand, XrActionStateBoolean *data);
+void UpdateIfGripPressed(XrHandEXT hand, XrActionStateBoolean *data);
 
 void UpdateIfPrimaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data);
 

@@ -17,6 +17,7 @@ void destroyHands(); //todo ?
 
 void updateHandJoints(XrTime currentTime, XrSpace baseSpace, XrHandEXT handType);
 
+
 XrResult tryGetBonePose(XrHandEXT handType, XrPosef* pose, uint32_t bone);
 
 XrTime getCurrentTime();

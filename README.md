@@ -52,7 +52,7 @@ Before you begin: Make a backup of your device.
 - ```./adb -s [DEVICE_ID] shell svc usb setFunctions mtp```
 - Copy MagiskHidePropsConf-v6.1.2.zip and LSPosed-v1.9.2-7024-zygisk-release.zip to the internal storage.
 - In Magisk, install the modules from storage using scrcpy.
-###6. Install LsPosed and Core Patch
+### 6. Install LsPosed and Core Patch
 -In Magisk, enable zygisk and reboot your device.
 - Execute the following commands:
 ```./adb -s 6b33ffe9 install -g ../core-patch-4.2.apk```

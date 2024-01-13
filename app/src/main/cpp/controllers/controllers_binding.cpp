@@ -75,7 +75,17 @@ void GetControllerSpacePose(XrTime time, XrSpace space, XrSpace baseSpace, XrSpa
             .z = finalRot.z
         };
 
-        location->pose.position = palmPose.position;
+        glm::vec3 deltaVec = glm::vec3(0.02f, 0.039f, -0.04f);
+
+        glm::vec3 palmPos = glm::vec3(palmPose.position.x, palmPose.position.y, palmPose.position.z);
+        glm::vec3 finalPos = palmPos + finalRot * deltaVec;
+        XrVector3f xrFinalPos = XrVector3f{
+            .x = finalPos.x,
+            .y = finalPos.y,
+            .z = finalPos.z
+        };
+
+        location->pose.position = xrFinalPos;
         location->pose.orientation = xrFinalRot;
 
         __android_log_print(ANDROID_LOG_DEBUG, "PICOR2", "TryGetControllerSpacePose left : %p", space);
@@ -95,7 +105,17 @@ void GetControllerSpacePose(XrTime time, XrSpace space, XrSpace baseSpace, XrSpa
                 .z = finalRot.z
         };
 
-        location->pose.position = palmPose.position;
+        glm::vec3 deltaVec = glm::vec3(-0.02f, 0.039f, -0.04f);
+
+        glm::vec3 palmPos = glm::vec3(palmPose.position.x, palmPose.position.y, palmPose.position.z);
+        glm::vec3 finalPos = palmPos + finalRot * deltaVec;
+        XrVector3f xrFinalPos = XrVector3f{
+                .x = finalPos.x,
+                .y = finalPos.y,
+                .z = finalPos.z
+        };
+
+        location->pose.position = xrFinalPos;
         location->pose.orientation = xrFinalRot;
 
 

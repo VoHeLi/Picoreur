@@ -23,6 +23,7 @@
 #include "oxr_chain.h"
 
 #include "mirage_app/mirage_main.h"
+#include "graphics_overlay/graphics_test.h"
 
 
 XRAPI_ATTR XrResult XRAPI_CALL
@@ -66,6 +67,7 @@ xrWaitFrame(XrSession session, const XrFrameWaitInfo *frameWaitInfo, XrFrameStat
 {
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrWaitFrame called!");
 
+    drawTest2();
 
     return mirageWaitFrame(session, frameWaitInfo, frameState);
 }
@@ -75,9 +77,10 @@ xrBeginFrame(XrSession session, const XrFrameBeginInfo *frameBeginInfo) //PASS
 {
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrBeginFrame called!");
 
+    drawTest2();
+
     //FORCE HIDE NAVBAR
     hideNavigationBar((JavaVM*)android_globals_get_vm(), (jobject)android_globals_get_context());
-
     return mirageBeginFrame(session, frameBeginInfo);
 }
 
@@ -86,7 +89,7 @@ xrEndFrame(XrSession session, const XrFrameEndInfo *frameEndInfo) //PASS TODO : 
 {
     __android_log_print(ANDROID_LOG_DEBUG, "PICOREUR", "xrEndFrame called!");
 
-
+    drawTest2();
     return mirageEndFrame(session, frameEndInfo);
 }
 

@@ -125,6 +125,8 @@ XRAPI_ATTR XrResult XRAPI_CALL
 xrGetActionStateFloat(XrSession session, const XrActionStateGetInfo *getInfo, XrActionStateFloat *data){
     PASS_MIRAGE(GetActionStateFloat, session, getInfo, data);
 
+    GetControllerActionStateFloat(getInfo, data);
+
     data->isActive = true;
 
     return res;

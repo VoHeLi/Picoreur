@@ -194,6 +194,34 @@ void GetControllerActionStateBoolean(const XrActionStateGetInfo *getInfo, XrActi
         case SECONDARY_BUTTON:
             UpdateIfSecondaryButtonPressed(hand, data);
             break;
+
+        case TRIGGER_TOUCHED:
+            UpdateIfTriggerTouched(hand, data);
+            break;
+
+    }
+    //UpdateIfTriggerPressed(hand, data);
+
+    data->changedSinceLastSync = XR_TRUE;
+    data->lastChangeTime = getCurrentTime();
+    data->isActive = XR_TRUE;
+}
+
+void GetControllerActionStateFloat(const XrActionStateGetInfo *getInfo, XrActionStateFloat *data){
+    XrHandEXT hand = getInfo->subactionPath == handPaths[LEFT_HAND] ? XR_HAND_LEFT_EXT : XR_HAND_RIGHT_EXT;
+
+    uint32_t actionId = 0;
+    for(int i = 0; i < 33; i++){
+        if(getInfo->action == controllersActions[i]){
+            actionId = i;
+            break;
+        }
+    }
+
+    switch(actionId){
+        case GRIP:
+            UpdateIfGripTouched(hand, data);
+            break;
     }
     //UpdateIfTriggerPressed(hand, data);
 
@@ -293,12 +321,12 @@ void UpdateIfGripPressed(XrHandEXT hand, XrActionStateBoolean *data){
     bool isActive = distSquare <= 0.005f;//0.03f*0.03f; //TODO CHANGE VALUE
 
     if(hand == XR_HAND_LEFT_EXT){
-        bool changedActive = triggerLeftLastState != isActive;
+        bool changedActive = gripLeftLastState != isActive;
         gripLeftLastState = isActive;
         data->changedSinceLastSync = changedActive;
     }
     else{
-        bool changedActive = triggerRightLastState != isActive;
+        bool changedActive = gripRightLastState != isActive;
         gripRightLastState = isActive;
         data->changedSinceLastSync = changedActive;
     }
@@ -335,13 +363,13 @@ void UpdateIfPrimaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data){
     bool isActive = distSquare <= 0.002f;//0.03f*0.03f; //TODO CHANGE VALUE 0.001270 min, 0.004 max
 
     if(hand == XR_HAND_LEFT_EXT){
-        bool changedActive = triggerLeftLastState != isActive;
-        triggerLeftLastState = isActive;
+        bool changedActive = primaryLeftLastState != isActive;
+        primaryLeftLastState = isActive;
         data->changedSinceLastSync = changedActive;
     }
     else{
-        bool changedActive = triggerRightLastState != isActive;
-        triggerRightLastState = isActive;
+        bool changedActive = primaryRightLastState != isActive;
+        primaryRightLastState = isActive;
         data->changedSinceLastSync = changedActive;
     }
 
@@ -384,13 +412,13 @@ void UpdateIfSecondaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data){
     //if(distanceToExpected > SECONDARY_BUTTON_DISTANCE) isActive = false;
 
     if(hand == XR_HAND_LEFT_EXT){
-        bool changedActive = triggerLeftLastState != isActive;
-        triggerLeftLastState = isActive;
+        bool changedActive = secondaryLeftLastState != isActive;
+        secondaryLeftLastState = isActive;
         data->changedSinceLastSync = changedActive;
     }
     else{
-        bool changedActive = triggerRightLastState != isActive;
-        triggerRightLastState = isActive;
+        bool changedActive = secondaryRightLastState != isActive;
+        secondaryRightLastState = isActive;
         data->changedSinceLastSync = changedActive;
     }
 
@@ -549,5 +577,136 @@ void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data){
             .x = joystickSensibility*deltaVec.x,
             .y = -joystickSensibility*deltaVec.z
     };
+
+}
+
+bool triggerTouchedLeftLastState = false;
+bool triggerTouchedRightLastState = false;
+void UpdateIfTriggerTouched(XrHandEXT hand, XrActionStateBoolean *data){
+    XrPosef indexTipPose;
+    XrPosef indexDistalPose;
+    XrPosef indexMiddlePose;
+    XrPosef indexProximalPose;
+    tryGetBonePose(hand, &indexTipPose, XR_HAND_JOINT_INDEX_TIP_EXT);
+    tryGetBonePose(hand, &indexDistalPose, XR_HAND_JOINT_INDEX_DISTAL_EXT);
+    tryGetBonePose(hand, &indexMiddlePose, XR_HAND_JOINT_INDEX_INTERMEDIATE_EXT);
+    tryGetBonePose(hand, &indexProximalPose, XR_HAND_JOINT_INDEX_PROXIMAL_EXT);
+
+    glm::vec3 indexTipPos = glm::vec3(indexTipPose.position.x, indexTipPose.position.y, indexTipPose.position.z);
+    glm::vec3 indexDistalPos = glm::vec3(indexDistalPose.position.x, indexDistalPose.position.y, indexDistalPose.position.z);
+    glm::vec3 indexMiddlePos = glm::vec3(indexMiddlePose.position.x, indexMiddlePose.position.y, indexMiddlePose.position.z);
+    glm::vec3 indexProximalPos = glm::vec3(indexProximalPose.position.x, indexProximalPose.position.y, indexProximalPose.position.z);
+
+    glm::vec3 deltaVec1 = glm::normalize(indexTipPos - indexDistalPos);
+    glm::vec3 deltaVec2 = glm::normalize(indexDistalPos - indexMiddlePos);
+    glm::vec3 deltaVec3 = glm::normalize(indexMiddlePos - indexProximalPos);
+
+    float alinement = 0.5f * (glm::dot(deltaVec1, deltaVec2) + glm::dot(deltaVec2, deltaVec3));
+
+    bool isActive = alinement < 0.8f;
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOC2", "Trigger Alinement : %.6f", alinement);
+
+    //isActive = true;
+
+    if(hand == XR_HAND_LEFT_EXT){
+        bool changedActive = triggerTouchedLeftLastState != isActive;
+        triggerTouchedLeftLastState = isActive;
+        data->changedSinceLastSync = changedActive;
+    }
+    else{
+        bool changedActive = triggerTouchedRightLastState != isActive;
+        triggerTouchedRightLastState = isActive;
+        data->changedSinceLastSync = changedActive;
+    }
+
+    data->isActive = XR_TRUE;
+    data->currentState = isActive;
+
+}
+
+bool gripTouchedLeftLastState = false;
+bool gripTouchedRightLastState = false;
+void UpdateIfGripTouched(XrHandEXT hand, XrActionStateFloat* data){
+    XrPosef middleTipPose;
+    XrPosef middleDistalPose;
+    XrPosef middleMiddlePose;
+    XrPosef middleProximalPose;
+    tryGetBonePose(hand, &middleTipPose, XR_HAND_JOINT_MIDDLE_TIP_EXT);
+    tryGetBonePose(hand, &middleDistalPose, XR_HAND_JOINT_MIDDLE_DISTAL_EXT);
+    tryGetBonePose(hand, &middleMiddlePose, XR_HAND_JOINT_MIDDLE_INTERMEDIATE_EXT);
+    tryGetBonePose(hand, &middleProximalPose, XR_HAND_JOINT_MIDDLE_PROXIMAL_EXT);
+
+    glm::vec3 middleTipPos = glm::vec3(middleTipPose.position.x, middleTipPose.position.y, middleTipPose.position.z);
+    glm::vec3 middleDistalPos = glm::vec3(middleDistalPose.position.x, middleDistalPose.position.y, middleDistalPose.position.z);
+    glm::vec3 middleMiddlePos = glm::vec3(middleMiddlePose.position.x, middleMiddlePose.position.y, middleMiddlePose.position.z);
+    glm::vec3 middleProximalPos = glm::vec3(middleProximalPose.position.x, middleProximalPose.position.y, middleProximalPose.position.z);
+
+    glm::vec3 deltaVec1 = glm::normalize(middleTipPos - middleDistalPos);
+    glm::vec3 deltaVec2 = glm::normalize(middleDistalPos - middleMiddlePos);
+    glm::vec3 deltaVec3 = glm::normalize(middleMiddlePos - middleProximalPos);
+
+    float alinement = 0.5f * (glm::dot(deltaVec1, deltaVec2) + glm::dot(deltaVec2, deltaVec3));
+
+    bool isActive = alinement < 0.8f;
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOC2", "Grip Alinement : %.6f", alinement);
+
+    //isActive = true;
+
+    if(hand == XR_HAND_LEFT_EXT){
+        bool changedActive = gripTouchedLeftLastState != isActive;
+        gripTouchedLeftLastState = isActive;
+        data->changedSinceLastSync = changedActive;
+    }
+    else{
+        bool changedActive = gripTouchedRightLastState != isActive;
+        gripTouchedRightLastState = isActive;
+        data->changedSinceLastSync = changedActive;
+    }
+
+    data->isActive = XR_TRUE;
+    data->currentState = isActive ? 1.0f : 0.0f;
+
+}
+
+bool joystickTouchedLeftLastState = false;
+bool joystickTouchedRightLastState = false;
+void UpdateIfJoystickTouched(XrHandEXT hand, XrActionStateBoolean *data){
+    XrPosef thumbTipPose;
+    XrPosef thumbDistalPose;
+    XrPosef thumbMiddlePose;
+    tryGetBonePose(hand, &thumbTipPose, XR_HAND_JOINT_THUMB_TIP_EXT);
+    tryGetBonePose(hand, &thumbDistalPose, XR_HAND_JOINT_THUMB_DISTAL_EXT);
+    tryGetBonePose(hand, &thumbMiddlePose, XR_HAND_JOINT_THUMB_PROXIMAL_EXT);
+
+    glm::vec3 thumbTipPos = glm::vec3(thumbTipPose.position.x, thumbTipPose.position.y, thumbTipPose.position.z);
+    glm::vec3 thumbDistalPos = glm::vec3(thumbDistalPose.position.x, thumbDistalPose.position.y, thumbDistalPose.position.z);
+    glm::vec3 thumbMiddlePos = glm::vec3(thumbMiddlePose.position.x, thumbMiddlePose.position.y, thumbMiddlePose.position.z);
+
+    glm::vec3 deltaVec1 = glm::normalize(thumbTipPos - thumbDistalPos);
+    glm::vec3 deltaVec2 = glm::normalize(thumbDistalPos - thumbMiddlePos);
+
+    float alinement = glm::dot(deltaVec1, deltaVec2);
+
+    bool isActive = alinement < 0.8f;
+
+    __android_log_print(ANDROID_LOG_DEBUG, "PICOC2", "Thumb Alinement : %.6f", alinement);
+
+    //isActive = true;
+
+    if(hand == XR_HAND_LEFT_EXT){
+        bool changedActive = triggerTouchedLeftLastState != isActive;
+        triggerTouchedLeftLastState = isActive;
+        data->changedSinceLastSync = changedActive;
+    }
+    else{
+        bool changedActive = triggerTouchedRightLastState != isActive;
+        triggerTouchedRightLastState = isActive;
+        data->changedSinceLastSync = changedActive;
+    }
+
+    data->isActive = XR_TRUE;
+    data->currentState = isActive;
 
 }

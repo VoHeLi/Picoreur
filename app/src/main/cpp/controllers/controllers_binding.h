@@ -135,6 +135,7 @@ XrResult GetCurrentInteractionProfileBinding(XrInteractionProfileState *interact
 //Get actions
 
 void GetControllerActionStateBoolean(const XrActionStateGetInfo *getInfo, XrActionStateBoolean *data);
+void GetControllerActionStateFloat(const XrActionStateGetInfo *getInfo, XrActionStateFloat *data);
 void GetControllerActionStateVector2f(const XrActionStateGetInfo *getInfo, XrActionStateVector2f *data);
 
 // Controllers Binding
@@ -158,3 +159,9 @@ void UpdateIfSecondaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data);
 #define THUMBSTICK_RIGHT glm::vec3(0.011134, -0.069010, -0.023969) // (0.011134, -0.069010, -0.023969) glm::vec3(0.008095,-0.071079,-0.026443)
 
 void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data); //THUMB DISTAL : 0.124675, -0.224141, -0.119549
+
+void UpdateIfTriggerTouched(XrHandEXT hand, XrActionStateBoolean *data);
+
+void UpdateIfGripTouched(XrHandEXT hand, XrActionStateFloat* data);
+
+void UpdateIfJoystickTouched(XrHandEXT hand, XrActionStateBoolean *data);

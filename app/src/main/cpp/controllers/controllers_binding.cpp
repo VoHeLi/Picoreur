@@ -469,7 +469,7 @@ void UpdateIfSecondaryButtonPressed(XrHandEXT hand, XrActionStateBoolean *data){
 
 }*/
 
-void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data){
+/*void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data){
 
     if(hand != XR_HAND_LEFT_EXT) return;
 
@@ -487,6 +487,67 @@ void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data){
     data->currentState = XrVector2f{
         .x = 0,
         .y = (glm::distance(leftPalmPosition, rightPalmPosition) < 0.20f) ? 1.0f : 0.0f
+    };
+
+}*/
+
+
+const float joystickSensibility = 10.0f;
+
+bool leftJoystickActive = false;
+glm::vec3 leftJoystickOrigin;
+bool rightJoystickActive = false;
+glm::vec3 rightJoystickOrigin;
+void UpdateJoystickInput(XrHandEXT hand, XrActionStateVector2f* data){
+    XrPosef palmPose;
+    XrPosef ringTipPose;
+    tryGetBonePose(hand, &palmPose, XR_HAND_JOINT_PALM_EXT);
+    tryGetBonePose(hand, &ringTipPose, XR_HAND_JOINT_RING_DISTAL_EXT);
+
+    glm::vec3 palmGlobalPosition = glm::vec3(palmPose.position.x, palmPose.position.y, palmPose.position.z);//GLM_POS(palmPose);
+    glm::vec3 indexGlobalPosition = glm::vec3(ringTipPose.position.x, ringTipPose.position.y, ringTipPose.position.z);//GLM_POS(indexTipPose);
+
+
+    float distSquare = (palmPose.position.x - ringTipPose.position.x)*(palmPose.position.x - ringTipPose.position.x)
+                       + (palmPose.position.y - ringTipPose.position.y)*(palmPose.position.y - ringTipPose.position.y)
+                       + (palmPose.position.z - ringTipPose.position.z)*(palmPose.position.z - ringTipPose.position.z);
+
+    bool isActive = distSquare <= 0.006f;
+
+    glm::vec3 deltaVec = glm::vec3(0.0f,0.0f,0.0f);
+
+    if(hand == XR_HAND_LEFT_EXT){
+        if(!isActive){
+            leftJoystickActive = false;
+            return;
+        }
+
+        if(!leftJoystickActive){
+            leftJoystickOrigin = palmGlobalPosition;
+            leftJoystickActive = true;
+        }
+
+        deltaVec = palmGlobalPosition - leftJoystickOrigin;
+    }
+    else{
+        if(!isActive){
+            rightJoystickActive = false;
+            return;
+        }
+
+        if(!rightJoystickActive){
+            rightJoystickOrigin = palmGlobalPosition;
+            rightJoystickActive = true;
+        }
+
+        deltaVec = palmGlobalPosition - rightJoystickOrigin;
+    }
+
+    data->changedSinceLastSync = true;
+    data->isActive = true;
+    data->currentState = XrVector2f{
+            .x = joystickSensibility*deltaVec.x,
+            .y = -joystickSensibility*deltaVec.z
     };
 
 }
